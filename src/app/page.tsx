@@ -1,3 +1,4 @@
+import { getProducts } from "@/lib/server-data";
 import { HeroSection } from "@/components/home/HeroSection";
 import { MarqueeStrip } from "@/components/home/MarqueeStrip";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
@@ -7,13 +8,16 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { BlogPreview } from "@/components/home/BlogPreview";
 import { Newsletter } from "@/components/home/Newsletter";
 
-export default function Home() {
+export default async function Home() {
+  const products = await getProducts();
+  const featuredProducts = products.filter((p) => p.featured);
+
   return (
     <>
       <HeroSection />
       <MarqueeStrip />
       <CategoryGrid />
-      <FeaturedProducts />
+      <FeaturedProducts products={featuredProducts} />
       <BrandStory />
       <Testimonials />
       <BlogPreview />

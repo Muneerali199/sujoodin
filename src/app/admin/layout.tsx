@@ -6,32 +6,25 @@ import { LayoutDashboard, Package, LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function AdminLayout({
-  children,
+const navItems = [
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/products", label: "Products", icon: Package },
+];
+
+function Sidebar({
+  mobile,
+  pathname,
+  onNavigate,
+  onLogout,
+  loading,
 }: {
-  children: React.ReactNode;
+  mobile?: boolean;
+  pathname: string;
+  onNavigate: () => void;
+  onLogout: () => void;
+  loading: boolean;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [loading, setLoading] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleLogout = () => {
-    setLoading(true);
-    sessionStorage.removeItem("admin-auth");
-    router.push("/admin/login");
-  };
-
-  if (pathname === "/admin/login") {
-    return <>{children}</>;
-  }
-
-  const navItems = [
-    { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/admin/products", label: "Products", icon: Package },
-  ];
-
-  const Sidebar = ({ mobile = false }: { mobile?: boolean }) => (
+  return (
     <div className={`bg-dark text-cream flex flex-col h-full ${mobile ? "w-full" : "w-64"}`}>
       <div className="p-6 border-b border-earth flex items-center justify-between">
         <div>
@@ -39,7 +32,7 @@ export default function AdminLayout({
           <p className="font-body text-xs text-sand mt-1">Admin Panel</p>
         </div>
         {mobile && (
-          <button onClick={() => setMobileOpen(false)} className="text-sand hover:text-cream">
+          <button onClick={onNavigate} className="text-sand hover:text-cream">
             <X size={24} />
           </button>
         )}
@@ -53,7 +46,7 @@ export default function AdminLayout({
             <Link
               key={item.href}
               href={item.href}
-              onClick={() => setMobileOpen(false)}
+              onClick={onNavigate}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg font-body text-sm transition-colors ${
                 isActive
                   ? "bg-earth text-cream"
@@ -71,7 +64,7 @@ export default function AdminLayout({
         <Button
           variant="ghost"
           className="w-full justify-start text-sand hover:text-cream"
-          onClick={handleLogout}
+          onClick={onLogout}
           disabled={loading}
         >
           <LogOut size={18} className="mr-3" />
@@ -80,6 +73,31 @@ export default function AdminLayout({
       </div>
     </div>
   );
+}
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [loading, setLoading] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } finally {
+      router.push("/admin/login");
+      router.refresh();
+    }
+  };
+
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen bg-cream flex">
@@ -91,12 +109,27 @@ export default function AdminLayout({
       )}
 
       <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 z-50">
-        <Sidebar />
+        <Sidebar
+          pathname={pathname}
+          onNavigate={() => setMobileOpen(false)}
+          onLogout={handleLogout}
+          loading={loading}
+        />
       </aside>
 
-      <aside className="fixed inset-0 z-50 lg:hidden">
-        <div className={`h-full transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}>
-          <Sidebar mobile />
+      <aside className="fixed inset-0 z-50 lg:hidden pointer-events-none">
+        <div
+          className={`h-full transition-transform duration-300 pointer-events-auto ${
+            mobileOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <Sidebar
+            mobile
+            pathname={pathname}
+            onNavigate={() => setMobileOpen(false)}
+            onLogout={handleLogout}
+            loading={loading}
+          />
         </div>
       </aside>
 

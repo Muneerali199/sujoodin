@@ -34,24 +34,31 @@ export function CategoryGrid() {
           >
             <Link href={`/shop/${category.slug}`} className="absolute inset-0 z-10" />
 
-            <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/30 to-clay/20 transition-transform duration-700 group-hover:scale-105" />
+            {category.image && (
+              <img
+                src={category.image}
+                alt={category.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/20 to-transparent transition-opacity duration-500" />
 
-            <IslamicPattern className="absolute inset-0 w-full h-full text-clay" opacity={0.1} />
+            <IslamicPattern className="absolute inset-0 w-full h-full text-gold" opacity={0.15} />
 
             <ArabicWatermark
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl text-earth select-none pointer-events-none"
-              opacity={0.08}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl text-gold select-none pointer-events-none"
+              opacity={0.12}
             />
 
-            <div className="absolute inset-0 bg-dark/0 group-hover:bg-dark/20 transition-colors duration-500" />
+            <div className="absolute inset-0 bg-dark/0 group-hover:bg-dark/10 transition-colors duration-500" />
 
             <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
               <motion.h3
-                className="font-display text-2xl lg:text-3xl font-light text-dark group-hover:text-cream transition-colors duration-500"
+                className="font-display text-2xl lg:text-3xl font-light text-cream group-hover:text-gold transition-colors duration-500"
               >
                 {category.name}
               </motion.h3>
-              <p className="font-body text-xs tracking-[0.15em] uppercase text-earth mt-2 group-hover:text-cream/70 transition-colors duration-500">
+              <p className="font-body text-xs tracking-[0.15em] uppercase text-sand mt-2 group-hover:text-cream/80 transition-colors duration-500">
                 {category.itemCount} Products
               </p>
             </div>

@@ -6,28 +6,28 @@ export const categories: Category[] = [
     slug: "modest-fashion",
     name: "Modest Fashion",
     itemCount: 48,
-    image: "/images/categories/modest-fashion.jpg",
+    image: "https://images.unsplash.com/photo-1760083545495-b297b1690672?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: "2",
     slug: "home-decor",
     name: "Home Decor",
     itemCount: 32,
-    image: "/images/categories/home-decor.jpg",
+    image: "https://images.unsplash.com/photo-1772805498407-69163cc34bc9?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: "3",
     slug: "prayer-essentials",
     name: "Prayer Essentials",
     itemCount: 24,
-    image: "/images/categories/prayer-essentials.jpg",
+    image: "https://images.unsplash.com/photo-1556760647-90d218f7ca5b?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: "4",
     slug: "ramadan-specials",
     name: "Ramadan Specials",
     itemCount: 18,
-    image: "/images/categories/ramadan.jpg",
+    image: "https://images.unsplash.com/photo-1771909752761-d26abe4e60ba?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
@@ -40,7 +40,10 @@ export const products: Product[] = [
     price: 499,
     originalPrice: 699,
     description: "Handcrafted premium cotton prayer cap with subtle embroidery.",
-    images: ["/images/products/prayer-cap-1.jpg", "/images/products/prayer-cap-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1770153811845-399cae8d49af?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1757035546085-bb186e26b9f9?auto=format&fit=crop&w=600&q=80"
+    ],
     badge: "Bestseller",
     sizes: ["S", "M", "L"],
     colors: [
@@ -58,7 +61,10 @@ export const products: Product[] = [
     category: "Modest Fashion",
     price: 2499,
     description: "Elegant black abaya with gold thread embroidery along the cuffs.",
-    images: ["/images/products/abaya-1.jpg", "/images/products/abaya-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1772474569781-2fb1c6539f8c?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1760083545495-b297b1690672?auto=format&fit=crop&w=600&q=80"
+    ],
     badge: "New",
     sizes: ["S", "M", "L", "XL"],
     colors: [{ name: "Black", hex: "#2A2420" }],
@@ -72,7 +78,9 @@ export const products: Product[] = [
     category: "Home Decor",
     price: 1899,
     description: "Beautiful Arabic calligraphy wall art on premium canvas.",
-    images: ["/images/products/wall-art-1.jpg", "/images/products/wall-art-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1771909752761-d26abe4e60ba?auto=format&fit=crop&w=600&q=80"
+    ],
     inStock: true,
     featured: true,
   },
@@ -84,7 +92,10 @@ export const products: Product[] = [
     price: 1299,
     originalPrice: 1599,
     description: "Ultra-soft prayer mat with memory foam cushioning.",
-    images: ["/images/products/prayer-mat-1.jpg", "/images/products/prayer-mat-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1761958150507-7bcc80840cf9?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1760072986251-d4bf6d68da6f?auto=format&fit=crop&w=600&q=80"
+    ],
     badge: "Sale",
     colors: [
       { name: "Cream", hex: "#FAF8F4" },
@@ -100,7 +111,9 @@ export const products: Product[] = [
     category: "Modest Fashion",
     price: 799,
     description: "Lightweight chiffon hijab in a beautiful dusty rose shade.",
-    images: ["/images/products/hijab-1.jpg", "/images/products/hijab-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1578973915942-f82bfcfedaba?auto=format&fit=crop&w=600&q=80"
+    ],
     badge: "New",
     colors: [
       { name: "Dusty Rose", hex: "#C4A4A4" },
@@ -116,7 +129,9 @@ export const products: Product[] = [
     category: "Home Decor",
     price: 599,
     description: "Hand-poured soy candle with authentic Arabic oud fragrance.",
-    images: ["/images/products/candle-1.jpg", "/images/products/candle-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1772805498407-69163cc34bc9?auto=format&fit=crop&w=600&q=80"
+    ],
     inStock: true,
   },
   {
@@ -126,7 +141,9 @@ export const products: Product[] = [
     category: "Modest Fashion",
     price: 999,
     description: "Comfortable cotton thobe for boys, perfect for daily wear and prayers.",
-    images: ["/images/products/thobe-1.jpg", "/images/products/thobe-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1616147147027-60d49d3582c4?auto=format&fit=crop&w=600&q=80"
+    ],
     sizes: ["4Y", "6Y", "8Y", "10Y", "12Y"],
     colors: [{ name: "White", hex: "#FFFFFF" }],
     inStock: true,
@@ -138,7 +155,10 @@ export const products: Product[] = [
     category: "Prayer Essentials",
     price: 349,
     description: "33-bead crystal tasbeeh with gold-plated accents.",
-    images: ["/images/products/tasbeeh-1.jpg", "/images/products/tasbeeh-2.jpg"],
+    images: [
+      "https://images.unsplash.com/photo-1556760647-90d218f7ca5b?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1762894110127-87fee1d11a57?auto=format&fit=crop&w=600&q=80"
+    ],
     badge: "Bestseller",
     inStock: true,
   },
@@ -183,7 +203,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Explore the evolving landscape of modest fashion and how contemporary designers are redefining elegance.",
     content: "Full article content here...",
     category: "Fashion",
-    image: "/images/blog/modest-fashion.jpg",
+    image: "https://images.unsplash.com/photo-1760083545495-b297b1690672?auto=format&fit=crop&w=800&q=80",
     author: "Ayesha Rahman",
     date: "2024-03-15",
     featured: true,
@@ -195,7 +215,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Simple yet impactful decor ideas to create a spiritually uplifting space for the holy month.",
     content: "Full article content here...",
     category: "Decor",
-    image: "/images/blog/ramadan-decor.jpg",
+    image: "https://images.unsplash.com/photo-1772805498407-69163cc34bc9?auto=format&fit=crop&w=800&q=80",
     author: "Fatima Noor",
     date: "2024-03-10",
   },
@@ -206,7 +226,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "A comprehensive guide to finding the perfect prayer mat for comfort, durability, and spiritual connection.",
     content: "Full article content here...",
     category: "Lifestyle",
-    image: "/images/blog/prayer-mat-guide.jpg",
+    image: "https://images.unsplash.com/photo-1556760647-90d218f7ca5b?auto=format&fit=crop&w=800&q=80",
     author: "Imran Siddiqui",
     date: "2024-03-05",
   },

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { serializeProduct, validateProduct } from "@/lib/product-validation";
 
 export async function GET() {
   try {
@@ -7,14 +8,10 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    const mapped = products.map((p) => ({
-      ...p,
-      images: JSON.parse(p.images),
-      sizes: p.sizes ? JSON.parse(p.sizes) : null,
-      colors: p.colors ? JSON.parse(p.colors) : null,
-    }));
-
-    return NextResponse.json({ success: true, products: mapped });
+    return NextResponse.json({
+      success: true,
+      products: products.map(serializeProduct),
+    });
   } catch (err) {
     console.error("GET /api/products error:", err);
     return NextResponse.json(
@@ -26,27 +23,55 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    let body: Record<string, unknown>;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON body" },
+        { status: 400 }
+      );
+    }
+
+    const result = validateProduct(body);
+    if (!result.ok) {
+      return NextResponse.json(
+        { success: false, message: result.message },
+        { status: 400 }
+      );
+    }
+    const data = result.data;
+
+    const clash = await prisma.product.findUnique({
+      where: { slug: data.slug },
+      select: { id: true },
+    });
+    if (clash) {
+      return NextResponse.json(
+        { success: false, message: "A product with this slug already exists" },
+        { status: 409 }
+      );
+    }
 
     const product = await prisma.product.create({
       data: {
-        name: body.name,
-        slug: body.slug,
-        category: body.category,
-        price: parseFloat(body.price),
-        originalPrice: body.originalPrice ? parseFloat(body.originalPrice) : null,
-        description: body.description,
-        images: JSON.stringify(body.images || []),
-        badge: body.badge || null,
-        sizes: body.sizes ? JSON.stringify(body.sizes) : null,
-        colors: body.colors ? JSON.stringify(body.colors) : null,
-        inStock: body.inStock ?? true,
-        featured: body.featured ?? false,
+        name: data.name,
+        slug: data.slug,
+        category: data.category,
+        price: data.price,
+        originalPrice: data.originalPrice,
+        description: data.description,
+        images: JSON.stringify(data.images),
+        badge: data.badge,
+        sizes: data.sizes ? JSON.stringify(data.sizes) : null,
+        colors: data.colors ? JSON.stringify(data.colors) : null,
+        inStock: data.inStock,
+        featured: data.featured,
       },
     });
 
     return NextResponse.json(
-      { success: true, product },
+      { success: true, product: serializeProduct(product) },
       { status: 201 }
     );
   } catch (err) {

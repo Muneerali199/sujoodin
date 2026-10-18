@@ -5,24 +5,26 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, ShoppingBag } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
-import { products } from "@/lib/data";
+import { Product } from "@/lib/types/product";
 import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 
 interface RelatedProductsProps {
+  products: Product[];
   currentProductId: string;
 }
 
-export function RelatedProducts({ currentProductId }: RelatedProductsProps) {
+export function RelatedProducts({
+  products,
+  currentProductId,
+}: RelatedProductsProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
   const isWishlisted = useWishlistStore((state) => state.isWishlisted);
 
-  const related = products
-    .filter((p) => p.id !== currentProductId)
-    .slice(0, 4);
+  const related = products.filter((p) => p.id !== currentProductId).slice(0, 4);
 
   return (
     <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-t border-sand">

@@ -1,12 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { blogPosts } from "@/lib/data";
 import { fadeInUp } from "@/lib/framer-variants";
 
-export default function JournalPostPage({ params }: { params: { slug: string } }) {
+export default function JournalPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
   const [progress, setProgress] = useState(0);
   const { scrollYProgress } = useScroll();
 
@@ -14,7 +19,22 @@ export default function JournalPostPage({ params }: { params: { slug: string } }
     setProgress(Math.round(latest * 100));
   });
 
-  const post = blogPosts.find((p) => p.slug === params.slug) || blogPosts[0];
+  const post = blogPosts.find((p) => p.slug === slug);
+
+  if (!post) {
+    return (
+      <div className="pt-20 min-h-[60vh] flex flex-col items-center justify-center px-6 text-center">
+        <h1 className="font-display text-4xl font-light mb-4">Article not found</h1>
+        <Link
+          href="/journal"
+          className="font-body text-xs tracking-[0.15em] uppercase text-earth hover:text-dark transition-colors"
+        >
+          ← Back to Journal
+        </Link>
+      </div>
+    );
+  }
+
   const relatedPosts = blogPosts.filter((p) => p.id !== post.id).slice(0, 2);
 
   return (

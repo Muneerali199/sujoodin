@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArabicWatermark } from "@/components/shared/ArabicWatermark";
+import { MessageCircle, Phone, MapPin } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
 export default function AboutPage() {
@@ -158,7 +159,101 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto">
+      <section id="contact" className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <motion.p
+            variants={fadeInUp}
+            className="font-body text-[10px] tracking-[0.28em] uppercase text-earth mb-4"
+          >
+            Get in Touch
+          </motion.p>
+          <motion.h2
+            variants={fadeInUp}
+            className="font-display text-3xl md:text-4xl font-light"
+          >
+            Contact Us
+          </motion.h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            className="flex flex-col gap-6"
+          >
+            <div className="flex items-start gap-4">
+              <MessageCircle className="w-6 h-6 text-gold flex-shrink-0" />
+              <div>
+                <p className="font-display text-lg font-light">Email</p>
+                <p className="font-body text-sm text-text-muted">
+                  hello@sujood.in
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <Phone className="w-6 h-6 text-gold flex-shrink-0" />
+              <div>
+                <p className="font-display text-lg font-light">Phone</p>
+                <p className="font-body text-sm text-text-muted">
+                  +91 99999 99999
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <MapPin className="w-6 h-6 text-gold flex-shrink-0" />
+              <div>
+                <p className="font-display text-lg font-light">Address</p>
+                <p className="font-body text-sm text-text-muted">
+                  Mumbai, Maharashtra, India
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            className="flex flex-col gap-6"
+          >
+            <div className="bg-warm-white p-6 rounded-xl border border-sand">
+              <p className="font-display text-lg font-light mb-4">
+                Shipping &amp; Returns
+              </p>
+              <p className="font-body text-sm text-text-muted leading-relaxed">
+                Free shipping on all orders above ₹999 across India. Standard
+                delivery takes 5-7 business days. Express delivery available
+                for urgent orders within 2-3 business days (₹99).
+              </p>
+              <p className="font-body text-sm text-text-muted leading-relaxed mt-4">
+                Easy 7-day return policy. Products must be unused, in original
+                packaging, with all tags intact. Contact us within 24 hours of
+                delivery to initiate a return.
+              </p>
+            </div>
+            <div className="bg-warm-white p-6 rounded-xl border border-sand">
+              <p className="font-display text-lg font-light mb-4">
+                Privacy Policy
+              </p>
+              <p className="font-body text-sm text-text-muted leading-relaxed">
+                We respect your privacy and do not share your personal
+                information with third parties. All payment data is processed
+                securely through encrypted gateways. Your data is used only for
+                order processing and communication related to your purchases.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto" id="privacy">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -172,6 +267,12 @@ export default function AboutPage() {
           >
             Founder&apos;s Note
           </motion.p>
+          <motion.h2
+            variants={fadeInUp}
+            className="font-display text-3xl md:text-4xl font-light"
+          >
+            From the Founder
+          </motion.h2>
           <motion.blockquote
             variants={fadeInUp}
             className="font-display text-2xl md:text-3xl font-light italic leading-relaxed"

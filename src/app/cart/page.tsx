@@ -6,9 +6,11 @@ import { Minus, Plus, X, Tag } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useCartStore } from "@/lib/store/cart";
+import { useToast } from "@/components/ui/Toast";
 import { fadeIn, staggerContainer } from "@/lib/framer-variants";
 
 export default function CartPage() {
+  const { addToast } = useToast();
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
@@ -180,7 +182,19 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <Button variant="primary" size="lg" className="w-full mt-6">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="w-full mt-6"
+                  onClick={() =>
+                    addToast({
+                      type: "info",
+                      title: "Checkout coming soon",
+                      description:
+                        "We're working on integrating secure payments. Stay tuned!",
+                    })
+                  }
+                >
                   Proceed to Checkout
                 </Button>
 

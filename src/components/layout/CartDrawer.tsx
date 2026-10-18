@@ -6,8 +6,10 @@ import { useCartStore } from "@/lib/store/cart";
 import { Button } from "@/components/ui/Button";
 import { cartDrawer } from "@/lib/framer-variants";
 import Link from "next/link";
+import { useToast } from "@/components/ui/Toast";
 
 export function CartDrawer() {
+  const { addToast } = useToast();
   const isOpen = useCartStore((state) => state.isOpen);
   const closeCart = useCartStore((state) => state.closeCart);
   const items = useCartStore((state) => state.items);
@@ -123,9 +125,20 @@ export function CartDrawer() {
                     Shipping calculated at checkout
                   </p>
                   <Link href="/cart" onClick={closeCart} className="block">
-                    <Button variant="primary" className="w-full">
-                      Proceed to Checkout
-                    </Button>
+                  <Button
+                    variant="primary"
+                    className="w-full"
+                    onClick={() =>
+                      addToast({
+                        type: "info",
+                        title: "Checkout coming soon",
+                        description:
+                          "We're working on integrating secure payments. Stay tuned!",
+                      })
+                    }
+                  >
+                    Proceed to Checkout
+                  </Button>
                   </Link>
                 </div>
               </>

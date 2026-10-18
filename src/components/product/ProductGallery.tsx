@@ -18,10 +18,17 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
   return (
     <div>
       <div
-        className="aspect-[4/3] bg-stone cursor-zoom-in mb-4"
+        className="relative aspect-[4/3] bg-stone cursor-zoom-in mb-4 overflow-hidden"
         onClick={() => setLightboxOpen(true)}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/40 to-clay/20" />
+        {allImages[activeIndex] && (
+          <img
+            src={allImages[activeIndex]}
+            alt={name}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-br from-stone/10 via-sand/5 to-clay/20" />
       </div>
 
       {allImages.length > 1 && (
@@ -30,11 +37,18 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
-              className={`aspect-square bg-stone transition-all duration-300 ${
+              className={`relative aspect-square bg-stone transition-all duration-300 overflow-hidden ${
                 i === activeIndex ? "ring-2 ring-dark" : "opacity-60 hover:opacity-100"
               }`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/40 to-clay/20" />
+              {img && (
+                <img
+                  src={img}
+                  alt={`${name} thumbnail ${i + 1}`}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-br from-stone/10 via-transparent to-transparent" />
             </button>
           ))}
         </div>
@@ -80,8 +94,14 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
               <ChevronRight className="w-8 h-8" />
             </button>
 
-            <div className="max-w-4xl max-h-[80vh] aspect-[4/3] bg-stone">
-              <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/40 to-clay/20" />
+            <div className="relative max-w-4xl max-h-[80vh] aspect-[4/3] bg-stone overflow-hidden">
+              {allImages[activeIndex] && (
+                <img
+                  src={allImages[activeIndex]}
+                  alt={name}
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
+              )}
             </div>
           </motion.div>
         )}

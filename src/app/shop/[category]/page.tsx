@@ -1,41 +1,74 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { getProducts, getProductsByCategory } from "@/lib/server-data";
+import { Filter } from "lucide-react";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
 import { SortDropdown } from "@/components/shop/SortDropdown";
-import { products } from "@/lib/data";
-import { fadeIn } from "@/lib/framer-variants";
+import { categories } from "@/lib/data";
+import { notFound } from "next/navigation";
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
-  const categorySlug = params.category;
-  const categoryProducts = products.filter((p) =>
-    p.category.toLowerCase().replace(/\s+/g, "-") === categorySlug
-  );
+export default async function ShopCategoryPage({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) {
+  const { category: categorySlug } = await params;
 
-  const categoryName = categoryProducts[0]?.category || categorySlug;
+  const products =
+    categorySlug === "all"
+      ? await getProducts()
+      : await getProductsByCategory(categorySlug);
+
+  const category = categories.find((c) => c.slug === categorySlug);
+  if (categorySlug !== "all" && !category) {
+    notFound();
+  }
 
   return (
     <div className="pt-20">
-      <motion.section
-        variants={fadeIn}
-        initial="hidden"
-        animate="visible"
-        className="py-16 px-6 lg:px-12 max-w-[1440px] mx-auto"
-      >
+      <section className="py-16 px-6 lg:px-12 max-w-[1440px] mx-auto">
         <p className="font-body text-[10px] tracking-[0.28em] uppercase text-earth mb-4">
           Collection
         </p>
         <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-light">
-          {categoryName}
+          {category ? category.name : "Shop All"}
         </h1>
-        <p className="font-body text-sm text-text-muted mt-4">
-          {categoryProducts.length} products
+        <p className="font-body text-sm text-text-muted mt-4 max-w-lg">
+          Discover our complete collection of modest fashion, Islamic home decor,
+          and prayer essentials.
         </p>
-      </motion.section>
+      </section>
 
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pb-24">
-        <ProductGrid products={categoryProducts} />
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-sand">
+          <p className="font-body text-sm text-text-muted">
+            {products.length} products
+          </p>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => {}}
+              className="lg:hidden flex items-center gap-2 font-body text-xs tracking-[0.15em] uppercase text-earth"
+            >
+              <Filter className="w-4 h-4" />
+              Filters
+            </button>
+            <SortDropdown value="featured" onChange={() => {}} />
+          </div>
+        </div>
+
+        <div className="flex gap-12">
+          <aside className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-28">
+              <FilterSidebar
+                selectedCategory={categorySlug === "all" ? null : categorySlug}
+                onCategoryChange={() => {}}
+              />
+            </div>
+          </aside>
+
+          <div className="flex-1">
+            <ProductGrid products={products} />
+          </div>
+        </div>
       </div>
     </div>
   );

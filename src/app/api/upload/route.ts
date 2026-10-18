@@ -1,32 +1,60 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
-import { existsSync } from "fs";
+
+const MAX_BYTES = 5 * 1024 * 1024;
+
+const ALLOWED: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/avif": "avif",
+};
 
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
-    const file = formData.get("file") as File;
+    const file = formData.get("file");
 
-    if (!file) {
+    if (!(file instanceof File)) {
       return NextResponse.json(
         { success: false, message: "No file provided" },
         { status: 400 }
       );
     }
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
+    if (file.size === 0) {
+      return NextResponse.json(
+        { success: false, message: "File is empty" },
+        { status: 400 }
+      );
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    if (file.size > MAX_BYTES) {
+      return NextResponse.json(
+        { success: false, message: "Image must be 5MB or smaller" },
+        { status: 413 }
+      );
+    }
 
-    const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2)}-${file.name}`;
-    const filePath = path.join(uploadDir, uniqueName);
+    const ext = ALLOWED[file.type];
+    if (!ext) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unsupported file type. Use JPG, PNG, WebP or AVIF.",
+        },
+        { status: 415 }
+      );
+    }
 
-    await writeFile(filePath, buffer);
+    const bytes = Buffer.from(await file.arrayBuffer());
+
+    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    await mkdir(uploadDir, { recursive: true });
+
+    const uniqueName = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
+    await writeFile(path.join(uploadDir, uniqueName), bytes);
 
     return NextResponse.json({
       success: true,

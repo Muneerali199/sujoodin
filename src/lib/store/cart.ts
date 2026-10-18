@@ -82,6 +82,7 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "sujood-cart",
+      skipHydration: true,
     }
   )
 );

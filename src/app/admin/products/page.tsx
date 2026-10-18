@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
-import { Plus, Search, Trash2 } from "lucide-react";
+import { Plus, Search, Trash2, Pencil, Loader2, EyeOff, Eye } from "lucide-react";
 import Link from "next/link";
 
 interface Product {
@@ -10,27 +10,43 @@ interface Product {
   name: string;
   category: string;
   price: number;
-  originalPrice?: number;
+  originalPrice?: number | null;
   images: string[];
   inStock: boolean;
-  badge?: string;
+  featured: boolean;
+  badge?: string | null;
   slug: string;
 }
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [search, setSearch] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [rowError, setRowError] = useState<Record<string, string>>({});
 
-  const fetchProducts = () => {
-    fetch("/api/products")
-      .then((r) => r.json())
-      .then((data) => { if (data.success) setProducts(data.products); })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  };
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoadError("");
+      const res = await fetch("/api/products");
+      const data = await res.json();
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || "Failed to load products");
+      }
+      setProducts(data.products);
+    } catch (err) {
+      setLoadError(
+        err instanceof Error ? err.message : "Failed to load products"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  useEffect(() => { fetchProducts(); }, []);
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const filtered = products.filter(
     (p) =>
@@ -38,14 +54,62 @@ export default function ProductsPage() {
       p.category.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this product?")) return;
+  const handleToggleStock = async (product: Product) => {
+    setRowError((e) => ({ ...e, [product.id]: "" }));
+    const next = !product.inStock;
+    setProducts((prev) =>
+      prev.map((p) => (p.id === product.id ? { ...p, inStock: next } : p))
+    );
     try {
-      const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
-      const data = await res.json();
-      if (data.success) fetchProducts();
+      const res = await fetch(`/api/products/${product.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ inStock: next }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || "Update failed");
+      }
     } catch (err) {
-      console.error(err);
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === product.id ? { ...p, inStock: !next } : p
+        )
+      );
+      setRowError((e) => ({
+        ...e,
+        [product.id]: err instanceof Error ? err.message : "Update failed",
+      }));
+    }
+  };
+
+  const handleDelete = async (product: Product) => {
+    const confirmed = window.confirm(
+      `Delete "${product.name}"? This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    setRowError((e) => ({ ...e, [product.id]: "" }));
+    setDeletingId(product.id);
+    const snapshot = products;
+    setProducts((prev) => prev.filter((p) => p.id !== product.id));
+
+    try {
+      const res = await fetch(`/api/products/${product.id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || "Delete failed");
+      }
+    } catch (err) {
+      setProducts(snapshot);
+      setRowError((e) => ({
+        ...e,
+        [product.id]: err instanceof Error ? err.message : "Delete failed",
+      }));
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -88,42 +152,135 @@ export default function ProductsPage() {
                   <td className="p-3 sm:p-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-sand rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center text-text-muted text-xs">
-                        {product.images.length > 0 ? <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" /> : "N/A"}
+                        {product.images.length > 0 ? (
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          "N/A"
+                        )}
                       </div>
                       <div>
-                        <span className="font-body text-sm text-dark block">{product.name}</span>
-                        <span className="font-body text-xs text-text-muted">{product.images.length} image(s)</span>
+                        <span className="font-body text-sm text-dark block">
+                          {product.name}
+                          {product.featured && (
+                            <span className="ml-2 text-[10px] font-body text-gold">
+                              Featured
+                            </span>
+                          )}
+                        </span>
+                        <span className="font-body text-xs text-text-muted">
+                          {product.images.length} image(s)
+                        </span>
                       </div>
                     </div>
                   </td>
-                  <td className="p-3 sm:p-4 font-body text-sm text-text-muted">{product.category}</td>
+                  <td className="p-3 sm:p-4 font-body text-sm text-text-muted">
+                    {product.category}
+                  </td>
                   <td className="p-3 sm:p-4 font-body text-sm text-dark">
                     ₹{product.price}
-                    {product.originalPrice && <span className="ml-2 text-xs text-text-muted line-through">₹{product.originalPrice}</span>}
+                    {product.originalPrice && (
+                      <span className="ml-2 text-xs text-text-muted line-through">
+                        ₹{product.originalPrice}
+                      </span>
+                    )}
                   </td>
                   <td className="p-3 sm:p-4">
-                    <span className={`inline-flex px-2 py-1 text-xs font-body rounded-full ${product.inStock ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                      {product.inStock ? "In Stock" : "Out of Stock"}
-                    </span>
+                    <button
+                      onClick={() => handleToggleStock(product)}
+                      disabled={deletingId === product.id}
+                      className="inline-flex px-2 py-1 text-xs font-body rounded-full transition-opacity hover:opacity-70 disabled:opacity-40"
+                      title="Toggle stock"
+                    >
+                      <span
+                        className={
+                          product.inStock
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }
+                      >
+                        {product.inStock ? "In Stock" : "Out of Stock"}
+                      </span>
+                    </button>
                   </td>
                   <td className="p-3 sm:p-4">
                     {product.badge ? (
-                      <span className="inline-flex px-2 py-1 text-xs font-body rounded-full bg-gold/20 text-earth">{product.badge}</span>
-                    ) : <span className="text-text-muted text-sm">-</span>}
+                      <span className="inline-flex px-2 py-1 text-xs font-body rounded-full bg-gold/20 text-earth">
+                        {product.badge}
+                      </span>
+                    ) : (
+                      <span className="text-text-muted text-sm">-</span>
+                    )}
                   </td>
                   <td className="p-3 sm:p-4">
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => handleDelete(product.id)}
-                        className="p-2 hover:bg-red-50 rounded-lg transition-colors"><Trash2 size={16} className="text-red-500" /></button>
+                      <Link
+                        href={`/admin/products/${product.id}`}
+                        className="p-2 hover:bg-stone rounded-lg transition-colors"
+                        title="Edit product"
+                      >
+                        <Pencil size={16} className="text-earth" />
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(product)}
+                        disabled={deletingId === product.id}
+                        title="Delete product"
+                        className="p-2 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40"
+                      >
+                        {deletingId === product.id ? (
+                          <Loader2 size={16} className="text-text-muted animate-spin" />
+                        ) : (
+                          <Trash2 size={16} className="text-red-500" />
+                        )}
+                      </button>
                     </div>
+                    {rowError[product.id] && (
+                      <p className="mt-1 text-right text-xs text-red-600">
+                        {rowError[product.id]}
+                      </p>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {loading && <div className="p-8 sm:p-12 text-center"><p className="font-body text-text-muted">Loading...</p></div>}
-        {!loading && products.length === 0 && <div className="p-8 sm:p-12 text-center"><p className="font-body text-text-muted">No products found</p></div>}
+        {loading && (
+          <div className="p-8 sm:p-12 text-center">
+            <p className="font-body text-text-muted">Loading...</p>
+          </div>
+        )}
+        {loadError && !loading && (
+          <div className="p-8 sm:p-12 text-center">
+            <p className="font-body text-red-600">{loadError}</p>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="mt-4"
+              onClick={() => {
+                setLoading(true);
+                fetchProducts();
+              }}
+            >
+              Retry
+            </Button>
+          </div>
+        )}
+        {!loading && !loadError && products.length === 0 && (
+          <div className="p-8 sm:p-12 text-center">
+            <p className="font-body text-text-muted">No products found</p>
+          </div>
+        )}
+        {!loading && !loadError && products.length > 0 && filtered.length === 0 && (
+          <div className="p-8 sm:p-12 text-center">
+            <p className="font-body text-text-muted">
+              No products match &ldquo;{search}&rdquo;
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

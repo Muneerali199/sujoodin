@@ -38,6 +38,7 @@ export const useWishlistStore = create<WishlistState>()(
     }),
     {
       name: "sujood-wishlist",
+      skipHydration: true,
     }
   )
 );

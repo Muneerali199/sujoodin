@@ -85,3 +85,43 @@ body {
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out forwards;
 }
+
+/* Custom cursor hover state */
+[data-cursor-hover="true"] .cursor-dot,
+[data-cursor-hover="true"] .cursor-outline {
+  opacity: 0.4 !important;
+}
+[data-cursor-hover="true"] .cursor-outline {
+  width: 24px !important;
+  height: 24px !important;
+  background: var(--color-gold) !important;
+  opacity: 0.35 !important;
+}
+[data-cursor-hover="true"] .cursor-dot {
+  width: 6px !important;
+  height: 6px !important;
+  background: var(--color-dark) !important;
+}
+
+/* Magnetic button glow */
+.magnetic-glow {
+  position: relative;
+  overflow: hidden;
+}
+.magnetic-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.magnetic-glow:hover::after {
+  opacity: 1;
+}
+
+/* Product card tilt container */
+.tilt-perspective {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
