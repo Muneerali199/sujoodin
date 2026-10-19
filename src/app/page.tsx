@@ -12,11 +12,16 @@ export default async function Home() {
   const products = await getProducts();
   const featuredProducts = products.filter((p) => p.featured);
 
+  const counts = products.reduce<Record<string, number>>((acc, p) => {
+    acc[p.category] = (acc[p.category] ?? 0) + 1;
+    return acc;
+  }, {});
+
   return (
     <>
       <HeroSection />
       <MarqueeStrip />
-      <CategoryGrid />
+      <CategoryGrid counts={counts} />
       <FeaturedProducts products={featuredProducts} />
       <BrandStory />
       <Testimonials />

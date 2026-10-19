@@ -16,6 +16,10 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
     { label: "Home & Decor", href: "/shop/home-decor" },
     { label: "About", href: "/about" },
     { label: "Journal", href: "/journal" },
+    { label: "Size Guide", href: "/size-guide" },
+    { label: "Shipping & Returns", href: "/shipping-returns" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Wishlist", href: "/wishlist" },
     { label: "Cart", href: "/cart" },
   ];
 
@@ -56,8 +60,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
                 {link.label}
               </Link>
             </motion.div>
-          ))}
-        </motion.nav>
+          ))}        </motion.nav>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

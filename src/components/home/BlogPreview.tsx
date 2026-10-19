@@ -28,7 +28,7 @@ export function BlogPreview() {
         {recentPosts.map((post) => (
           <motion.article key={post.id} variants={fadeInUp} className="group">
             <Link href={`/journal/${post.slug}`}>
-              <div className="relative aspect-[4/3] bg-stone mb-6 overflow-hidden">
+              <div className="relative aspect-[3/2] bg-stone mb-6 overflow-hidden">
                 {post.image && (
                   <img
                     src={post.image}
@@ -36,7 +36,6 @@ export function BlogPreview() {
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-br from-stone/10 via-sand/5 to-clay/20 transition-transform duration-700" />
               </div>
 
               <span className="font-body text-[10px] tracking-[0.2em] uppercase text-gold">

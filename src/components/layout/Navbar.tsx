@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/store/cart";
 import { MagneticButton } from "@/components/ui/CustomCursor";
@@ -65,6 +65,14 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-6">
+              <Link
+                href="/wishlist"
+                data-cursor-hover
+                aria-label="Wishlist"
+                className="hidden md:block text-earth hover:text-dark transition-colors duration-300"
+              >
+                <Heart className="w-5 h-5" />
+              </Link>
               <button
                 onClick={toggleCart}
                 className="relative font-body text-xs tracking-[0.2em] uppercase text-earth hover:text-dark transition-colors duration-300 hidden md:block group relative"

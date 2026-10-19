@@ -253,7 +253,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto" id="privacy">
+      <section className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto">
         <motion.div
           variants={staggerContainer}
           initial="hidden"

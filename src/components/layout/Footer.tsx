@@ -8,14 +8,16 @@ export function Footer() {
     { label: "Home & Decor", href: "/shop/home-decor" },
     { label: "Prayer Essentials", href: "/shop/prayer-essentials" },
     { label: "Ramadan Specials", href: "/shop/ramadan-specials" },
+    { label: "Wishlist", href: "/wishlist" },
   ];
 
   const companyLinks = [
     { label: "Our Story", href: "/about" },
     { label: "Journal", href: "/journal" },
+    { label: "Size Guide", href: "/size-guide" },
+    { label: "Shipping & Returns", href: "/shipping-returns" },
+    { label: "FAQ", href: "/faq" },
     { label: "Contact Us", href: "/about#contact" },
-    { label: "Shipping & Returns", href: "/about#shipping" },
-    { label: "Privacy Policy", href: "/about#privacy" },
   ];
 
   const connectLinks = [

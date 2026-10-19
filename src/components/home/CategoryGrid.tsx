@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { IslamicPattern } from "@/components/shared/IslamicPattern";
-import { ArabicWatermark } from "@/components/shared/ArabicWatermark";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { categories } from "@/lib/data";
 import { fadeInUp, staggerContainer, scaleIn } from "@/lib/framer-variants";
 
-export function CategoryGrid() {
+interface CategoryGridProps {
+  counts?: Record<string, number>;
+}
+
+export function CategoryGrid({ counts = {} }: CategoryGridProps) {
   return (
     <section className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto">
       <SectionHeader
@@ -38,28 +40,19 @@ export function CategoryGrid() {
               <img
                 src={category.image}
                 alt={category.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/20 to-transparent transition-opacity duration-500" />
 
-            <IslamicPattern className="absolute inset-0 w-full h-full text-gold" opacity={0.15} />
-
-            <ArabicWatermark
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl text-gold select-none pointer-events-none"
-              opacity={0.12}
-            />
-
-            <div className="absolute inset-0 bg-dark/0 group-hover:bg-dark/10 transition-colors duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/75 via-dark/25 to-transparent" />
 
             <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
-              <motion.h3
-                className="font-display text-2xl lg:text-3xl font-light text-cream group-hover:text-gold transition-colors duration-500"
-              >
+              <motion.h3 className="font-display text-2xl lg:text-3xl font-light text-cream group-hover:text-gold transition-colors duration-500">
                 {category.name}
               </motion.h3>
               <p className="font-body text-xs tracking-[0.15em] uppercase text-sand mt-2 group-hover:text-cream/80 transition-colors duration-500">
-                {category.itemCount} Products
+                {counts[category.name] ?? 0}{" "}
+                {counts[category.name] === 1 ? "Product" : "Products"}
               </p>
             </div>
           </motion.div>

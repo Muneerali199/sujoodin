@@ -91,9 +91,9 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex items-center gap-2 font-body text-[10px] tracking-[0.28em] uppercase text-earth mb-6"
+              className="flex items-center gap-3 font-body text-[10px] tracking-[0.28em] uppercase text-earth mb-6"
             >
-              <span className="w-2 h-2 bg-gold rounded-full animate-pulse" />
+              <span className="w-8 h-px bg-gold" />
               Islamic Lifestyle Brand — India
             </motion.div>
 
@@ -104,10 +104,7 @@ export function HeroSection() {
               className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-light leading-[1.05] tracking-tight line-clamp-3"
             >
               Live in Faith,{" "}
-              <span className="italic text-gold relative">
-                Dress with Purpose.
-                <span className="absolute -inset-px bg-gold/20 rounded-full blur-md -z-10" />
-              </span>
+              <span className="italic text-gold">Dress with Purpose.</span>
             </motion.h1>
 
             <motion.p
@@ -149,7 +146,7 @@ export function HeroSection() {
             className="relative hidden lg:block z-10"
           >
             <div
-              className="relative aspect-[3/4] bg-stone overflow-hidden rounded-2xl group"
+              className="relative aspect-[3/4] bg-stone overflow-hidden group"
               style={{
                 transform: `translate3d(var(--hero-x, 0px), var(--hero-y, 0px), 0)`,
                 transition: "transform 0.1s ease-out",
@@ -158,10 +155,10 @@ export function HeroSection() {
               <img
                 src="https://images.unsplash.com/photo-1561442748-c50715dc32f6?q=80&w=1200&auto=format&fit=crop"
                 alt="Sujood — modest fashion, crafted with purpose"
-                className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-1000 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-dark/40 via-transparent to-transparent rounded-2xl" />
-              <div className="absolute inset-0 flex items-center justify-center rounded-2xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-dark/40 via-transparent to-transparent" />
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                 <span className="font-display text-[120px] text-dark/10 italic tracking-wider">
                   SUJOOD
                 </span>

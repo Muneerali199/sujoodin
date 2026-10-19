@@ -41,8 +41,14 @@ export function RelatedProducts({
             onMouseEnter={() => setHoveredId(product.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
-            <div className="relative aspect-[4/3] bg-stone overflow-hidden mb-4">
-              <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/40 to-clay/20" />
+            <div className="relative aspect-[3/4] bg-stone overflow-hidden mb-4">
+              {product.images && product.images[0] && (
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                />
+              )}
 
               {product.badge && (
                 <div className="absolute top-3 left-3 z-10">

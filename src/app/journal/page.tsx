@@ -61,8 +61,14 @@ export default function JournalPage() {
           >
             <Link href={`/journal/${featuredPost.slug}`}>
               <div className="grid lg:grid-cols-2 gap-8 items-center">
-                <div className="aspect-[16/9] bg-stone overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/40 to-clay/20 transition-transform duration-700 group-hover:scale-105" />
+                <div className="aspect-[3/2] bg-stone overflow-hidden">
+                  {featuredPost.image && (
+                    <img
+                      src={featuredPost.image}
+                      alt={featuredPost.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  )}
                 </div>
                 <div>
                   <span className="font-body text-[10px] tracking-[0.2em] uppercase text-gold">
@@ -106,8 +112,14 @@ export default function JournalPage() {
               className="group"
             >
               <Link href={`/journal/${post.slug}`}>
-                <div className="aspect-[4/3] bg-stone mb-6 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/40 to-clay/20 transition-transform duration-700 group-hover:scale-105" />
+                <div className="aspect-[3/2] bg-stone mb-6 overflow-hidden">
+                  {post.image && (
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  )}
                 </div>
                 <span className="font-body text-[10px] tracking-[0.2em] uppercase text-gold">
                   {post.category}

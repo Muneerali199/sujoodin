@@ -5,19 +5,23 @@ import { categories } from "@/lib/data";
 interface FilterSidebarProps {
   selectedCategory: string | null;
   onCategoryChange: (category: string | null) => void;
+  selectedPriceRange?: string | null;
+  onPriceRangeChange?: (range: string | null) => void;
 }
+
+const priceRanges = [
+  { id: "under-500", label: "Under ₹500" },
+  { id: "500-1000", label: "₹500 – ₹1000" },
+  { id: "1000-2000", label: "₹1000 – ₹2000" },
+  { id: "over-2000", label: "₹2000 and above" },
+];
 
 export function FilterSidebar({
   selectedCategory,
   onCategoryChange,
+  selectedPriceRange = null,
+  onPriceRangeChange,
 }: FilterSidebarProps) {
-  const priceRanges = [
-    { label: "Under ₹500", min: 0, max: 500 },
-    { label: "₹500 - ₹1000", min: 500, max: 1000 },
-    { label: "₹1000 - ₹2000", min: 1000, max: 2000 },
-    { label: "₹2000+", min: 2000, max: Infinity },
-  ];
-
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -51,21 +55,32 @@ export function FilterSidebar({
         </div>
       </div>
 
-      <div className="pt-8 border-t border-sand">
-        <h3 className="font-body text-[10px] tracking-[0.25em] uppercase text-earth mb-4">
-          Price Range
-        </h3>
-        <div className="flex flex-col gap-3">
-          {priceRanges.map((range) => (
-            <button
-              key={range.label}
-              className="font-body text-sm text-text-muted hover:text-dark transition-colors duration-300 text-left"
-            >
-              {range.label}
-            </button>
-          ))}
+      {onPriceRangeChange && (
+        <div className="pt-8 border-t border-sand">
+          <h3 className="font-body text-[10px] tracking-[0.25em] uppercase text-earth mb-4">
+            Price Range
+          </h3>
+          <div className="flex flex-col gap-3">
+            {priceRanges.map((range) => (
+              <button
+                key={range.id}
+                onClick={() =>
+                  onPriceRangeChange(
+                    selectedPriceRange === range.id ? null : range.id
+                  )
+                }
+                className={`font-body text-sm text-left transition-colors duration-300 ${
+                  selectedPriceRange === range.id
+                    ? "text-dark font-medium"
+                    : "text-text-muted hover:text-dark"
+                }`}
+              >
+                {range.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
