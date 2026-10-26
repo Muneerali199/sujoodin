@@ -2,40 +2,53 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { IslamicPattern } from "@/components/shared/IslamicPattern";
+import { useToast } from "@/components/ui/Toast";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
-export function Newsletter() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+type Status = "idle" | "loading" | "success";
 
-  const handleSubmit = (e: React.FormEvent) => {
+export function Newsletter() {
+  const { addToast } = useToast();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubmitted(true);
+    if (!email || status === "loading") return;
+
+    setStatus("loading");
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.message ?? "Something went wrong.");
+      }
+
+      setStatus("success");
       setEmail("");
+      addToast({
+        type: "success",
+        title: "You're on the list",
+        description: "We'll email you when new collections arrive.",
+      });
+    } catch (error) {
+      setStatus("idle");
+      addToast({
+        type: "error",
+        title: "Subscription failed",
+        description:
+          error instanceof Error ? error.message : "Please try again.",
+      });
     }
   };
 
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-stone">
-        <IslamicPattern className="w-full h-full text-clay" opacity={0.06} />
-        <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.04 }}>
-          <defs>
-            <pattern
-              id="diagonal"
-              patternUnits="userSpaceOnUse"
-              width="8"
-              height="8"
-            >
-              <path d="M0 8L8 0" stroke="currentColor" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#diagonal)" />
-        </svg>
-      </div>
-
+    <section className="py-24 lg:py-32 bg-stone border-y border-sand">
       <div className="relative max-w-2xl mx-auto px-6 text-center">
         <motion.div
           variants={staggerContainer}
@@ -70,29 +83,35 @@ export function Newsletter() {
             onSubmit={handleSubmit}
             className="mt-10 flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
           >
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email address
+            </label>
             <input
+              id="newsletter-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="flex-1 font-body text-sm bg-transparent border-b border-sand py-3 px-0 placeholder:text-text-muted focus:outline-none focus:border-gold transition-colors duration-300"
               required
+              disabled={status === "loading"}
             />
             <button
               type="submit"
-              className="font-body text-xs tracking-[0.15em] uppercase bg-dark text-cream px-6 py-3 hover:bg-earth transition-colors duration-300 whitespace-nowrap"
+              disabled={status === "loading"}
+              className="font-body text-xs tracking-[0.15em] uppercase bg-dark text-cream px-6 py-3 hover:bg-earth transition-colors duration-300 whitespace-nowrap disabled:opacity-60 disabled:pointer-events-none"
             >
-              Subscribe
+              {status === "loading" ? "Joining…" : "Subscribe"}
             </button>
           </motion.form>
 
-          {submitted && (
+          {status === "success" && (
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="font-body text-sm text-gold mt-4"
+              className="font-body text-sm text-earth mt-4"
             >
-              Welcome to the Sujood family ✦
+              You&apos;re in. Look out for our next letter.
             </motion.p>
           )}
         </motion.div>

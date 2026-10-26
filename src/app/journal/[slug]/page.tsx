@@ -36,6 +36,11 @@ export default function JournalPostPage({
   }
 
   const relatedPosts = blogPosts.filter((p) => p.id !== post.id).slice(0, 2);
+  const words = [post.excerpt, ...(post.sections?.map((s) => s.body) ?? [])]
+    .join(" ")
+    .trim()
+    .split(/\s+/).length;
+  const readTime = Math.max(1, Math.round(words / 200));
 
   return (
     <div className="pt-20">
@@ -83,6 +88,8 @@ export default function JournalPostPage({
                 year: "numeric",
               })}
             </span>
+            <span className="font-body text-xs text-sand">•</span>
+            <span className="font-body text-sm text-earth">{readTime} min read</span>
           </div>
         </motion.div>
 
@@ -117,34 +124,24 @@ export default function JournalPostPage({
           <motion.p variants={fadeInUp} className="font-body text-base text-text-muted leading-relaxed mb-6">
             {post.excerpt}
           </motion.p>
-          <motion.p variants={fadeInUp} className="font-body text-base text-dark/80 leading-relaxed mb-6">
-            In the ever-evolving landscape of modern Muslim life, finding products
-            and practices that honor our faith while embracing contemporary
-            aesthetics has become increasingly important. At Sujood, we believe
-            that modesty and beauty are not opposing forces — they are
-            complementary expressions of a life well-lived.
-          </motion.p>
-          <motion.p variants={fadeInUp} className="font-body text-base text-dark/80 leading-relaxed mb-6">
-            Our journey began with a simple observation: many Muslims struggle to
-            find high-quality, beautifully designed products that align with their
-            values. We set out to change that by curating a collection that speaks
-            to both the heart and the soul.
-          </motion.p>
-          <motion.h2 variants={fadeInUp} className="font-display text-2xl font-light mt-12 mb-6">
-            The Art of Mindful Living
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="font-body text-base text-dark/80 leading-relaxed mb-6">
-            Every product in our collection is chosen with intention. We work
-            closely with artisans who share our commitment to quality,
-            sustainability, and ethical production. From the cotton in our
-            garments to the materials in our home decor, every element is
-            considered and carefully selected.
-          </motion.p>
-          <motion.p variants={fadeInUp} className="font-body text-base text-dark/80 leading-relaxed">
-            We invite you to explore our collection and discover pieces that
-            resonate with your faith and your sense of style. Because at Sujood,
-            we believe that living your faith should be a beautiful experience.
-          </motion.p>
+          {post.sections?.map((section, index) => (
+            <div key={`${section.heading ?? "section"}-${index}`}>
+              {section.heading && (
+                <motion.h2
+                  variants={fadeInUp}
+                  className="font-display text-2xl font-light mt-12 mb-6"
+                >
+                  {section.heading}
+                </motion.h2>
+              )}
+              <motion.p
+                variants={fadeInUp}
+                className="font-body text-base text-dark/80 leading-relaxed mb-6"
+              >
+                {section.body}
+              </motion.p>
+            </div>
+          ))}
         </motion.div>
 
         <div className="mt-16 pt-8 border-t border-sand">
@@ -153,7 +150,7 @@ export default function JournalPostPage({
           </p>
           <div className="flex items-center gap-4">
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://sujood.in/journal/${post.slug}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="font-body text-xs text-earth hover:text-dark transition-colors"
@@ -192,11 +189,12 @@ export default function JournalPostPage({
                 href={`/journal/${relatedPost.slug}`}
                 className="group"
               >
-                <div className="aspect-[3/2] bg-stone mb-4 overflow-hidden">
+                <div className="relative aspect-[3/2] bg-stone mb-4 overflow-hidden">
                   {relatedPost.image && (
                     <img
                       src={relatedPost.image}
                       alt={relatedPost.title}
+                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   )}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Heart, ShoppingBag, Plus, Sparkles } from "lucide-react";
+import { Heart, ShoppingBag, Check } from "lucide-react";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { Product } from "@/lib/types/product";
@@ -17,18 +17,20 @@ export function FeaturedProducts({
 }: {
   products?: Product[];
 }) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState<string | null>(null);
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
   const isWishlisted = useWishlistStore((state) => state.isWishlisted);
 
-  const featuredProducts = products;
-
   const handleAddItem = (e: React.MouseEvent, product: Product) => {
-    e.stopPropagation();
+    e.preventDefault();
     setAddedToCart(product.id);
-    addItem(product);
+    addItem(
+      product,
+      1,
+      product.sizes?.[0],
+      product.colors?.[0]?.name
+    );
     setTimeout(() => setAddedToCart(null), 1200);
   };
 
@@ -55,21 +57,22 @@ export function FeaturedProducts({
         viewport={{ once: true, margin: "-100px" }}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
       >
-        {featuredProducts.map((product) => (
-          <TiltCard
-            key={product.id}
-            className="group cursor-pointer"
-            intensity={8}
-          >
+        {products.map((product) => (
+          <TiltCard key={product.id} className="group">
             <div className="relative aspect-[3/4] bg-stone overflow-hidden mb-4">
-              {product.images && product.images[0] && (
+              <Link
+                href={`/product/${product.slug}`}
+                aria-label={`View ${product.name}`}
+                className="absolute inset-0 z-[1]"
+              />
+              {product.images?.[0] && (
                 <img
                   src={product.images[0]}
                   alt={product.name}
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-dark/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
 
               {product.badge && (
                 <div className="absolute top-3 left-3 z-10">
@@ -88,34 +91,31 @@ export function FeaturedProducts({
               )}
 
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleWishlist(product);
-                }}
-                className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center bg-cream/80 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-cream shadow-lg"
+                onClick={() => toggleWishlist(product)}
+                aria-label={
+                  isWishlisted(product.id)
+                    ? `Remove ${product.name} from wishlist`
+                    : `Save ${product.name} to wishlist`
+                }
+                className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center bg-cream/85 text-earth opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all duration-300 hover:bg-cream"
               >
                 <Heart
                   className={`w-5 h-5 transition-all duration-200 ${
                     isWishlisted(product.id)
-                      ? "fill-gold text-gold scale-110"
-                      : "text-earth"
+                      ? "fill-gold text-gold"
+                      : ""
                   }`}
                 />
               </button>
 
-              <motion.div
-                className="absolute inset-x-0 bottom-0 p-4 rounded-b-2xl"
-                initial={{ y: "100%" }}
-                animate={{ y: hoveredId === product.id ? "0%" : "100%" }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
+              <div className="absolute inset-x-0 bottom-0 p-4 z-10 translate-y-full transition-transform duration-300 group-hover:translate-y-0 focus-within:translate-y-0 max-md:translate-y-0">
                 <button
                   onClick={(e) => handleAddItem(e, product)}
-                  className="w-full bg-dark text-cream font-body text-xs tracking-[0.15em] uppercase py-3 flex items-center justify-center gap-2 hover:bg-earth transition-colors duration-300 shadow-lg"
+                  className="w-full bg-dark text-cream font-body text-xs tracking-[0.15em] uppercase py-3 flex items-center justify-center gap-2 hover:bg-earth transition-colors duration-300"
                 >
                   {addedToCart === product.id ? (
                     <>
-                      <Plus className="w-4 h-4" />
+                      <Check className="w-4 h-4" />
                       Added
                     </>
                   ) : (
@@ -125,18 +125,6 @@ export function FeaturedProducts({
                     </>
                   )}
                 </button>
-              </motion.div>
-
-              <div className="absolute inset-0 flex items-end justify-between p-4 pointer-events-none">
-                <div className="flex gap-2">
-                  {product.colors?.slice(0, 3).map((color) => (
-                    <div
-                      key={color.name}
-                      className="w-2 h-2 rounded-full border border-cream/50"
-                      style={{ backgroundColor: color.hex }}
-                    />
-                  ))}
-                </div>
               </div>
             </div>
 

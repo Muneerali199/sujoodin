@@ -12,6 +12,7 @@ export interface Product {
   colors?: { name: string; hex: string }[];
   inStock: boolean;
   featured?: boolean;
+  createdAt?: string;
 }
 
 export interface CartItem extends Product {
@@ -35,6 +36,7 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   content: string;
+  sections?: { heading?: string; body: string }[];
   category: string;
   image: string;
   author: string;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MessageCircle, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export function Footer() {
   const shopLinks = [
@@ -22,7 +22,6 @@ export function Footer() {
 
   const connectLinks = [
     { label: "Instagram", href: "https://instagram.com/sujood.in" },
-    { label: "WhatsApp", href: "https://wa.me/919999999999", icon: <MessageCircle className="w-4 h-4" /> },
     { label: "Email", href: "mailto:hello@sujood.in", icon: <Mail className="w-4 h-4" /> },
   ];
 

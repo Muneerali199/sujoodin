@@ -7,12 +7,18 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
+import { useStoreHydrated } from "@/lib/store/use-store-hydrated";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
 export default function WishlistPage() {
   const items = useWishlistStore((state) => state.items);
   const removeItem = useWishlistStore((state) => state.removeItem);
   const addItem = useCartStore((state) => state.addItem);
+  const hydrated = useStoreHydrated(useWishlistStore);
+
+  if (!hydrated) {
+    return <div className="pt-20 min-h-[70vh]" aria-hidden="true" />;
+  }
 
   if (items.length === 0) {
     return (
@@ -79,10 +85,16 @@ export default function WishlistPage() {
           {items.map((product) => (
             <motion.div key={product.id} variants={fadeInUp} className="group">
               <div className="relative aspect-[3/4] bg-stone overflow-hidden mb-4">
+                <Link
+                  href={`/product/${product.slug}`}
+                  aria-label={`View ${product.name}`}
+                  className="absolute inset-0 z-[1]"
+                />
                 {product.images?.[0] && (
                   <img
                     src={product.images[0]}
                     alt={product.name}
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   />
                 )}
@@ -111,12 +123,19 @@ export default function WishlistPage() {
                   <X size={15} />
                 </button>
 
-                <div className="absolute inset-x-0 bottom-0 p-4">
+                <div className="absolute inset-x-0 bottom-0 p-4 z-10">
                   <Button
                     variant="primary"
                     size="sm"
                     className="w-full"
-                    onClick={() => addItem(product)}
+                    onClick={() =>
+                      addItem(
+                        product,
+                        1,
+                        product.sizes?.[0],
+                        product.colors?.[0]?.name
+                      )
+                    }
                   >
                     <ShoppingBag size={14} className="mr-2" />
                     Add to Cart

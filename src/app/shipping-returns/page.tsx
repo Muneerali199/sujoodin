@@ -6,34 +6,37 @@ import { Truck, PackageCheck, RotateCcw, CreditCard, Headphones } from "lucide-r
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
 const shippingRates = [
-  { method: "Standard", time: "5–7 business days", cost: "₹99", free: "Free over ₹999" },
-  { method: "Express", time: "2–3 business days", cost: "₹199", free: "Free over ₹1999" },
-  { method: "Same Day", time: "Within 6 hours", cost: "₹349", free: "Metro cities only" },
+  {
+    method: "Standard",
+    time: "5–7 business days",
+    cost: "₹99",
+    free: "Free over ₹999",
+  },
 ];
 
 const timelines = [
   {
-    title: "Order confirmed",
-    text: "You receive an email with your order number right after checkout.",
+    title: "Order request received",
+    text: "You send your order from checkout. We confirm stock and email you a secure payment link.",
   },
   {
     title: "Packed with care",
-    text: "Your pieces are wrapped in tissue and sealed within 24 hours of ordering.",
+    text: "Once payment is received, your pieces are wrapped in tissue and sealed within 24 hours.",
   },
   {
     title: "Handed to courier",
-    text: "You get a tracking link by email and SMS once the parcel is collected.",
+    text: "We email you a tracking link as soon as the parcel is collected.",
   },
   {
     title: "Delivered",
-    text: "Inspect your order, then confirm delivery in the app or on the tracking page.",
+    text: "Inspect your order on arrival. If anything is wrong, email us within 7 days.",
   },
 ];
 
 const returns = [
   {
     title: "7 days to return",
-    text: "Request a return within 7 days of delivery for any reason.",
+    text: "Email us within 7 days of delivery to start a return.",
   },
   {
     title: "Free return pickup",
@@ -82,8 +85,10 @@ export default function ShippingReturnsPage() {
             variants={fadeInUp}
             className="font-body text-sm md:text-base text-text-muted mt-6 leading-relaxed"
           >
-            We ship across India, and most orders reach you within a week. If
-            something is not right, sending it back is free.
+            We ship across India, and most orders reach you within a week. We
+            confirm and take payment by email before dispatch, so you always know
+            what you are paying for. If something is not right, sending it back
+            is free.
           </motion.p>
         </motion.div>
       </section>
@@ -105,8 +110,8 @@ export default function ShippingReturnsPage() {
             variants={fadeInUp}
             className="font-body text-sm text-text-muted mb-10"
           >
-            Timelines start from the day your order is packed, not the day it is
-            placed.
+            Timelines start from the day your order is confirmed and paid, not
+            the day the request is sent.
           </motion.p>
 
           <motion.div variants={fadeInUp} className="overflow-x-auto">
@@ -265,10 +270,10 @@ export default function ShippingReturnsPage() {
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10"
         >
           {[
-            { icon: Truck, label: "Dispatch", value: "Within 24 hours" },
+            { icon: Truck, label: "Dispatch", value: "Within 24 hours of payment" },
             { icon: PackageCheck, label: "Delivery", value: "5–7 business days" },
             { icon: CreditCard, label: "Payment", value: "UPI, cards, netbanking" },
-            { icon: Headphones, label: "Support", value: "Mon–Sat, 10am–7pm" },
+            { icon: Headphones, label: "Support", value: "Mon–Sat, 10am–6pm" },
           ].map((s) => {
             const Icon = s.icon;
             return (

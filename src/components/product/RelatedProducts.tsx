@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Heart, ShoppingBag } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Product } from "@/lib/types/product";
@@ -19,12 +17,13 @@ export function RelatedProducts({
   products,
   currentProductId,
 }: RelatedProductsProps) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
   const isWishlisted = useWishlistStore((state) => state.isWishlisted);
 
   const related = products.filter((p) => p.id !== currentProductId).slice(0, 4);
+
+  if (related.length === 0) return null;
 
   return (
     <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-t border-sand">
@@ -35,17 +34,18 @@ export function RelatedProducts({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {related.map((product) => (
-          <div
-            key={product.id}
-            className="group"
-            onMouseEnter={() => setHoveredId(product.id)}
-            onMouseLeave={() => setHoveredId(null)}
-          >
+          <div key={product.id} className="group">
             <div className="relative aspect-[3/4] bg-stone overflow-hidden mb-4">
-              {product.images && product.images[0] && (
+              <Link
+                href={`/product/${product.slug}`}
+                aria-label={`View ${product.name}`}
+                className="absolute inset-0 z-[1]"
+              />
+              {product.images?.[0] && (
                 <img
                   src={product.images[0]}
                   alt={product.name}
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
               )}
@@ -67,35 +67,37 @@ export function RelatedProducts({
               )}
 
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleWishlist(product);
-                }}
-                className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-cream/80 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-cream"
+                onClick={() => toggleWishlist(product)}
+                aria-label={
+                  isWishlisted(product.id)
+                    ? `Remove ${product.name} from wishlist`
+                    : `Save ${product.name} to wishlist`
+                }
+                className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-cream/85 text-earth opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all duration-300 hover:bg-cream"
               >
                 <Heart
                   className={`w-4 h-4 ${
-                    isWishlisted(product.id)
-                      ? "fill-gold text-gold"
-                      : "text-earth"
+                    isWishlisted(product.id) ? "fill-gold text-gold" : ""
                   }`}
                 />
               </button>
 
-              <motion.div
-                className="absolute inset-x-0 bottom-0 p-4"
-                initial={{ y: "100%" }}
-                animate={{ y: hoveredId === product.id ? "0%" : "100%" }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
+              <div className="absolute inset-x-0 bottom-0 p-4 z-10 translate-y-full transition-transform duration-300 group-hover:translate-y-0 focus-within:translate-y-0 max-md:translate-y-0">
                 <button
-                  onClick={() => addItem(product)}
+                  onClick={() =>
+                    addItem(
+                      product,
+                      1,
+                      product.sizes?.[0],
+                      product.colors?.[0]?.name
+                    )
+                  }
                   className="w-full bg-dark text-cream font-body text-xs tracking-[0.15em] uppercase py-3 flex items-center justify-center gap-2 hover:bg-earth transition-colors duration-300"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   Quick Add
                 </button>
-              </motion.div>
+              </div>
             </div>
 
             <Link href={`/product/${product.slug}`}>

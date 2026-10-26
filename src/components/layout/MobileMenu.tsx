@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { X, MessageCircle } from "lucide-react";
+import { X } from "lucide-react";
 import { staggerContainer, fadeInUp } from "@/lib/framer-variants";
 
 interface MobileMenuProps {
@@ -29,10 +28,10 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[60] bg-cream"
+      className="fixed inset-0 z-[60] bg-cream overflow-y-auto"
     >
-      <div className="flex flex-col h-full px-6 pt-6 pb-12">
-        <div className="flex items-center justify-between mb-16">
+      <div className="flex flex-col min-h-full px-6 pt-6 pb-10">
+        <div className="flex items-center justify-between mb-12">
           <Link href="/" className="flex items-center gap-1" onClick={onClose}>
             <span className="font-display text-2xl font-light tracking-wide text-dark">
               Sujood
@@ -48,19 +47,20 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="flex flex-col gap-8 flex-1"
+          className="flex flex-col gap-5 flex-1"
         >
           {links.map((link) => (
             <motion.div key={link.href} variants={fadeInUp}>
               <Link
                 href={link.href}
                 onClick={onClose}
-                className="font-display text-4xl font-light text-dark hover:text-gold transition-colors duration-300"
+                className="font-display text-3xl font-light text-dark hover:text-gold transition-colors duration-300"
               >
                 {link.label}
               </Link>
             </motion.div>
-          ))}        </motion.nav>
+          ))}
+        </motion.nav>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -77,12 +77,10 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
             Instagram
           </a>
           <a
-            href="https://wa.me/919999999999"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-earth hover:text-dark transition-colors"
+            href="mailto:hello@sujood.in"
+            className="font-body text-sm text-earth hover:text-dark transition-colors"
           >
-            <MessageCircle className="w-5 h-5" />
+            hello@sujood.in
           </a>
         </motion.div>
       </div>

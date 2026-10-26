@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { blogPosts } from "@/lib/data";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
-const categories = ["All", "Lifestyle", "Fashion", "Decor", "Ramadan & Eid"];
+const categories = ["All", "Lifestyle", "Fashion", "Decor"];
 
 export default function JournalPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -61,7 +61,7 @@ export default function JournalPage() {
           >
             <Link href={`/journal/${featuredPost.slug}`}>
               <div className="grid lg:grid-cols-2 gap-8 items-center">
-                <div className="aspect-[3/2] bg-stone overflow-hidden">
+                <div className="relative aspect-[3/2] bg-stone overflow-hidden">
                   {featuredPost.image && (
                     <img
                       src={featuredPost.image}
@@ -105,6 +105,11 @@ export default function JournalPage() {
           animate="visible"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
         >
+          {filteredPosts.length === 0 && (
+            <p className="col-span-full font-body text-sm text-text-muted py-12 text-center">
+              No stories in this category yet.
+            </p>
+          )}
           {filteredPosts.map((post) => (
             <motion.article
               key={post.id}
@@ -112,11 +117,12 @@ export default function JournalPage() {
               className="group"
             >
               <Link href={`/journal/${post.slug}`}>
-                <div className="aspect-[3/2] bg-stone mb-6 overflow-hidden">
+                <div className="relative aspect-[3/2] bg-stone mb-6 overflow-hidden">
                   {post.image && (
                     <img
                       src={post.image}
                       alt={post.title}
+                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   )}

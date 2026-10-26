@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
-import { Plus, Search, Trash2, Pencil, Loader2, EyeOff, Eye } from "lucide-react";
+import { Plus, Search, Trash2, Pencil, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 interface Product {

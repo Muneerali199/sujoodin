@@ -198,36 +198,108 @@ export const testimonials: Testimonial[] = [
 export const blogPosts: BlogPost[] = [
   {
     id: "1",
-    slug: "modest-fashion-trends-2024",
-    title: "Modest Fashion Trends to Watch in 2024",
-    excerpt: "Explore the evolving landscape of modest fashion and how contemporary designers are redefining elegance.",
-    content: "Full article content here...",
+    slug: "modest-fashion-trends-2026",
+    title: "Modest Fashion Trends to Watch in 2026",
+    excerpt:
+      "Quiet luxury, breathable layers, and a return to real fabric — the shifts shaping how we dress with purpose this year.",
+    content:
+      "From quiet luxury to breathable layering, modest fashion in 2026 is moving toward fewer, better pieces.",
+    sections: [
+      {
+        body: "Modest fashion has never been short of ideas, but this year the conversation has shifted from what looks new to what lasts. Designers and customers alike are asking better questions: Will this fabric survive an Indian summer? Can this abaya be worn to work, to a wedding, and to Jummah? The answers are shaping a quieter, more considered season.",
+      },
+      {
+        heading: "Quiet luxury, louder values",
+        body: "The most interesting collections this year are not the loudest. Unlined abayas, tonal embroidery, and restrained colour palettes are replacing heavy embellishment. What stands out is the fabric: washed cotton, bamboo jersey, and linen blends that breathe. Buyers are reading labels, asking where a piece was made, and choosing fewer items they intend to keep for years.",
+      },
+      {
+        heading: "Layering that actually works",
+        body: "The practical layering trend is a gift for modest dressing. Think wide-leg trousers under a long shirt, a light kimono over a column dress, or a knit vest over a collared tunic. The trick is proportion: keep one layer relaxed and the other close to the body so the silhouette stays clean rather than bulky.",
+      },
+      {
+        heading: "Colour with intention",
+        body: "Cream, clay, olive, and deep oxblood are moving in as the default palette. These are forgiving, flattering colours that work across seasons and photograph beautifully without looking trend-driven. If you want to experiment, do it in accessories — a printed scarf, a woven bag, or a single piece of gold jewellery.",
+      },
+      {
+        heading: "What to buy first",
+        body: "Start with one well-cut everyday abaya and one pair of trousers you can wear three ways. Add a breathable long-sleeve layer for summer and a heavier overshirt for winter. Build from there. A small wardrobe of pieces that fit properly will always feel more elegant than a full rail of things that almost work.",
+      },
+    ],
     category: "Fashion",
-    image: "https://images.unsplash.com/photo-1760083545495-b297b1690672?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1760083545495-b297b1690672?auto=format&fit=crop&w=1200&q=80",
     author: "Ayesha Rahman",
-    date: "2024-03-15",
+    date: "2026-09-18",
     featured: true,
   },
   {
     id: "2",
-    slug: "ramadan-home-decor-ideas",
-    title: "Transform Your Home for Ramadan",
-    excerpt: "Simple yet impactful decor ideas to create a spiritually uplifting space for the holy month.",
-    content: "Full article content here...",
+    slug: "calmer-home-for-ramadan",
+    title: "A Calmer Home for Ramadan",
+    excerpt:
+      "You do not need a full redecorating project. A few thoughtful changes can make your home feel ready for the month.",
+    content:
+      "Small, intentional changes — light, scent, and a clear surface — can prepare a home for Ramadan without a full redecorating project.",
+    sections: [
+      {
+        body: "There is a particular kind of pressure that arrives before Ramadan: the urge to transform every room at once. In practice, the homes that feel most peaceful during the month are rarely the most decorated. They are the ones with a clear surface to pray on, a place to sit together, and a rhythm that leaves room for rest.",
+      },
+      {
+        heading: "Begin with one corner",
+        body: "Choose a single spot for prayer and make it feel intentional. A clean mat, a small side table for a tasbeeh and a glass of water, and a lamp you can switch on without overhead light is enough. Keep the area free of clutter so it stays inviting at every prayer time, not just the first week.",
+      },
+      {
+        heading: "Light and scent, softly",
+        body: "Warm, low lighting changes a room more than new furniture. Use a floor lamp or a pair of small table lamps instead of ceiling lights after Maghrib. Scent should be subtle: oud, amber, or a simple beeswax candle. Strong fragrance in a shared room can overwhelm, especially when people are fasting.",
+      },
+      {
+        heading: "Prepare for gathering",
+        body: "If you host iftar, set out what you need before the day begins. A stack of plates, a jug of water, and dates on a tray remove a hundred small decisions at sunset. Keep the table simple. The point is presence, not performance, and a calm host makes a calmer gathering.",
+      },
+      {
+        heading: "Leave room for quiet",
+        body: "Not every evening needs to be planned. Protect one or two nights a week for nothing more than Quran, tea, and an early sleep. A home prepared for Ramadan is not a showroom; it is a place that makes worship easier. Start there, and the rest will follow.",
+      },
+    ],
     category: "Decor",
-    image: "https://images.unsplash.com/photo-1772805498407-69163cc34bc9?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1772805498407-69163cc34bc9?auto=format&fit=crop&w=1200&q=80",
     author: "Fatima Noor",
-    date: "2024-03-10",
+    date: "2026-08-30",
   },
   {
     id: "3",
     slug: "choosing-right-prayer-mat",
-    title: "How to Choose the Right Prayer Mat",
-    excerpt: "A comprehensive guide to finding the perfect prayer mat for comfort, durability, and spiritual connection.",
-    content: "Full article content here...",
+    title: "How to Choose a Prayer Mat You Will Keep for Years",
+    excerpt:
+      "Cushioning, size, care, and the details that matter more than pattern. A practical guide to buying well once.",
+    content:
+      "A good prayer mat is a long-term purchase. Here is what to check before you buy.",
+    sections: [
+      {
+        body: "A prayer mat is one of the few things you will use every single day, often several times. It is worth choosing carefully. The right mat supports your knees and forehead, stays flat on the floor, and is easy to keep clean. The wrong one slides, traps heat, or looks worn within a season.",
+      },
+      {
+        heading: "Start with thickness, not pattern",
+        body: "Memory foam and dense cotton padding are comfortable, but too much thickness can make sujood feel unstable. Look for a mat that compresses slightly under the knees while staying firm enough to keep its shape. If you pray on a hard floor, a 10–15mm pad is usually the sweet spot. On carpet, a thinner mat is often better.",
+      },
+      {
+        heading: "Check the size against how you pray",
+        body: "Standard mats are around 110 × 70cm, which suits most adults. If you are taller, look for a longer mat rather than a wider one; the extra length is what keeps your feet and forehead on the mat during sujood. For children, a smaller mat is easier to manage and helps them set up their own space.",
+      },
+      {
+        heading: "Look at the backing",
+        body: "A non-slip backing matters more than most buyers expect. Smooth marble and tile floors are unforgiving, and a mat that shifts mid-prayer is distracting. Check that the base has a textured grip or a rubberised layer. If the mat is reversible, make sure both sides sit flat without curling at the edges.",
+      },
+      {
+        heading: "Care that keeps it beautiful",
+        body: "Vacuum gently or shake the mat outside once a week. Spot-clean spills with a damp cloth and mild soap, then let it dry flat and fully before folding. Avoid machine washing padded mats unless the care label explicitly allows it. Stored rolled rather than folded, a good mat will keep its shape for years.",
+      },
+    ],
     category: "Lifestyle",
-    image: "https://images.unsplash.com/photo-1556760647-90d218f7ca5b?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1556760647-90d218f7ca5b?auto=format&fit=crop&w=1200&q=80",
     author: "Imran Siddiqui",
-    date: "2024-03-05",
+    date: "2026-08-12",
   },
 ];

@@ -4,15 +4,6 @@ import { serializeProduct, validateProduct } from "@/lib/product-validation";
 
 type Ctx = { params: Promise<{ id: string }> };
 
-function parseJsonField<T>(raw: string | null, fallback: T): T {
-  if (!raw) return fallback;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
 export async function PATCH(req: NextRequest, { params }: Ctx) {
   try {
     const { id } = await params;

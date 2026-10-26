@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Minus, Plus, Truck, RotateCcw, Shield } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -34,13 +35,13 @@ export default function ProductClient({
   const isWishlisted = useWishlistStore((state) => state.isWishlisted);
 
   const effectiveSize =
-    product.sizes && !product.sizes.includes(selectedSize ?? "")
-      ? product.sizes[0]
-      : selectedSize;
+    selectedSize && product.sizes?.includes(selectedSize)
+      ? selectedSize
+      : product.sizes?.[0];
   const effectiveColor =
-    product.colors && !product.colors.some((c) => c.name === selectedColor)
-      ? product.colors[0].name
-      : selectedColor;
+    selectedColor && product.colors?.some((c) => c.name === selectedColor)
+      ? selectedColor
+      : product.colors?.[0]?.name;
 
   const tabs = [
     { id: "description", label: "Description" },
@@ -123,9 +124,17 @@ export default function ProductClient({
 
             {product.sizes && product.sizes.length > 0 && (
               <div className="mt-8">
-                <p className="font-body text-xs tracking-[0.15em] uppercase text-earth mb-3">
-                  Size
-                </p>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="font-body text-xs tracking-[0.15em] uppercase text-earth">
+                    Size
+                  </p>
+                  <Link
+                    href="/size-guide"
+                    className="font-body text-[10px] tracking-[0.15em] uppercase text-text-muted underline underline-offset-4 hover:text-dark transition-colors"
+                  >
+                    Size guide
+                  </Link>
+                </div>
                 <div className="flex items-center gap-3">
                   {product.sizes.map((size) => (
                     <button
@@ -151,6 +160,7 @@ export default function ProductClient({
               <div className="flex items-center gap-4 border border-sand w-fit">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  aria-label="Decrease quantity"
                   className="p-3 hover:bg-stone transition-colors"
                 >
                   <Minus className="w-4 h-4" />
@@ -160,6 +170,7 @@ export default function ProductClient({
                 </span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
+                  aria-label="Increase quantity"
                   className="p-3 hover:bg-stone transition-colors"
                 >
                   <Plus className="w-4 h-4" />
@@ -172,15 +183,21 @@ export default function ProductClient({
                 variant="primary"
                 size="lg"
                 className="flex-1"
+                disabled={!product.inStock}
                 onClick={() =>
                   addItem(product, quantity, effectiveSize, effectiveColor)
                 }
               >
-                Add to Cart
+                {product.inStock ? "Add to Cart" : "Sold Out"}
               </Button>
               <Button
                 variant="secondary"
                 size="lg"
+                aria-label={
+                  isWishlisted(product.id)
+                    ? "Remove from wishlist"
+                    : "Save to wishlist"
+                }
                 onClick={() => toggleWishlist(product)}
               >
                 <Heart
@@ -231,9 +248,7 @@ export default function ProductClient({
               <div className="py-6">
                 {activeTab === "description" && (
                   <p className="font-body text-sm text-text-muted leading-relaxed">
-                    {product.description} Crafted with care and attention to
-                    detail, this piece embodies the essence of modest elegance.
-                    Perfect for daily wear or special occasions.
+                    {product.description}
                   </p>
                 )}
                 {activeTab === "care" && (
@@ -250,6 +265,12 @@ export default function ProductClient({
                     <p>• Standard delivery: 5-7 business days</p>
                     <p>• Express delivery: 2-3 business days (₹99)</p>
                     <p>• Easy 7-day return policy</p>
+                    <Link
+                      href="/shipping-returns"
+                      className="inline-block mt-2 text-dark underline underline-offset-4 hover:text-gold transition-colors"
+                    >
+                      Read the full policy
+                    </Link>
                   </div>
                 )}
               </div>

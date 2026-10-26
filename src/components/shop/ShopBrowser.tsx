@@ -11,6 +11,13 @@ import { Product } from "@/lib/types/product";
 
 type SortValue = "featured" | "newest" | "price-asc" | "price-desc";
 
+const priceBounds: Record<string, [number, number]> = {
+  "under-500": [0, 500],
+  "500-1000": [500, 1000],
+  "1000-2000": [1000, 2000],
+  "over-2000": [2000, Infinity],
+};
+
 interface ShopBrowserProps {
   products: Product[];
   activeCategory?: string | null;
@@ -27,13 +34,6 @@ export function ShopBrowser({
   const [priceRange, setPriceRange] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortValue>("featured");
   const [filterOpen, setFilterOpen] = useState(false);
-
-  const priceBounds: Record<string, [number, number]> = {
-    "under-500": [0, 500],
-    "500-1000": [500, 1000],
-    "1000-2000": [1000, 2000],
-    "over-2000": [2000, Infinity],
-  };
 
   const filtered = useMemo(() => {
     let list = [...products];
@@ -57,7 +57,11 @@ export function ShopBrowser({
         list.sort((a, b) => b.price - a.price);
         break;
       case "newest":
-        list.sort((a, b) => Number(b.badge === "New") - Number(a.badge === "New"));
+        list.sort(
+          (a, b) =>
+            new Date(b.createdAt ?? 0).getTime() -
+            new Date(a.createdAt ?? 0).getTime()
+        );
         break;
       default:
         list.sort((a, b) => Number(b.featured) - Number(a.featured));

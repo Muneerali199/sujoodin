@@ -33,6 +33,7 @@ export function BlogPreview() {
                   <img
                     src={post.image}
                     alt={post.title}
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 )}

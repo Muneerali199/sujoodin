@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
@@ -48,7 +49,7 @@ export function SectionHeader({
       )}
       {link && (
         <motion.div variants={fadeInUp} className="mt-6">
-          <a
+          <Link
             href={link.href}
             className="font-body text-xs tracking-[0.15em] uppercase text-dark inline-flex items-center gap-2 group"
           >
@@ -56,7 +57,7 @@ export function SectionHeader({
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>
-          </a>
+          </Link>
         </motion.div>
       )}
     </motion.div>

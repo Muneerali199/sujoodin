@@ -5,7 +5,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { Providers } from "@/components/Providers";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 import { ToastProvider } from "@/components/ui/Toast";
 
 const cormorant = Cormorant_Garamond({
@@ -69,7 +68,6 @@ export default function RootLayout({
       className={`${cormorant.variable} ${dmSans.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-cream text-dark antialiased overflow-x-hidden">
-        <CustomCursor />
         <ToastProvider>
           <Providers>
             <Navbar />

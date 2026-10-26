@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, MessageCircle } from "lucide-react";
+import { Plus, Mail } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
 const faqs = [
@@ -12,11 +12,11 @@ const faqs = [
     items: [
       {
         q: "How do I track my order?",
-        a: "As soon as your parcel is collected, we email and text you a tracking link. You can also find it under Account → Orders. Tracking usually starts updating within 12 hours of dispatch.",
+        a: "Once we confirm your order by email, we send a tracking link to the same address as soon as your parcel is collected. If you need an update in the meantime, email hello@sujood.in with your name and order details.",
       },
       {
         q: "Can I change or cancel my order?",
-        a: "You can cancel free of charge within 4 hours of placing the order, from your account or by messaging us. After that the order is already packed, but you can still return it on delivery.",
+        a: "Email us within 4 hours of sending your order request and we can usually change or cancel it before it is packed. After dispatch, you can still return it under our 7-day return policy.",
       },
       {
         q: "Do you ship outside India?",
@@ -37,7 +37,7 @@ const faqs = [
       },
       {
         q: "Are your products colour accurate?",
-        a: "We photograph in natural daylight with minimal editing, so what you see is close to what arrives. Screens vary, so if you need exact shade guidance, message us with the product name.",
+        a: "We photograph in natural daylight with minimal editing, so what you see is close to what arrives. Screens vary, so if you need exact shade guidance, email us with the product name and we will send additional photos.",
       },
     ],
   },
@@ -62,16 +62,16 @@ const faqs = [
     group: "Payments & Support",
     items: [
       {
-        q: "What payment methods do you accept?",
-        a: "UPI, all major credit and debit cards, netbanking, and wallets including Paytm and PhonePe. Payments are processed over encrypted gateways — we never see your card details.",
+        q: "How do payments work?",
+        a: "Checkout sends us an order request by email. Once we confirm stock and delivery, we reply with a secure payment link. UPI, all major credit and debit cards, netbanking, and wallets including Paytm and PhonePe are supported. We never see your card details.",
       },
       {
         q: "Do you offer cash on delivery?",
-        a: "We do for orders under ₹5,000 to most Indian PIN codes. COD adds a ₹50 handling fee, which is deducted from any refund.",
+        a: "Cash on delivery is not available right now. All orders are prepaid through the secure payment link we email after confirming your order.",
       },
       {
         q: "How do I reach you?",
-        a: "Message us on WhatsApp at +91 99999 99999 or email hello@sujood.in. We reply Monday to Saturday between 10am and 7pm, usually within a few hours.",
+        a: "Email hello@sujood.in. We reply Monday to Saturday between 10am and 6pm IST, usually within a few hours.",
       },
     ],
   },
@@ -188,7 +188,7 @@ export default function FaqPage() {
           className="max-w-2xl mx-auto text-center bg-warm-white border border-sand p-10 lg:p-14"
         >
           <motion.div variants={fadeInUp} className="flex justify-center mb-5">
-            <MessageCircle className="w-7 h-7 text-gold" />
+            <Mail className="w-7 h-7 text-gold" />
           </motion.div>
           <motion.h2
             variants={fadeInUp}
@@ -200,17 +200,15 @@ export default function FaqPage() {
             variants={fadeInUp}
             className="font-body text-sm text-text-muted leading-relaxed mb-8"
           >
-            Our team answers every message personally. Reach us on WhatsApp and
-            we will sort it out.
+            Our team answers every message personally. Email us and we will sort
+            it out.
           </motion.p>
           <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-5">
             <a
-              href="https://wa.me/919999999999"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:hello@sujood.in"
               className="font-body text-xs tracking-[0.15em] uppercase bg-dark text-cream px-6 py-3 hover:bg-earth transition-colors"
             >
-              WhatsApp us
+              Email us
             </a>
             <Link
               href="/shipping-returns"

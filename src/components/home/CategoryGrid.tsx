@@ -40,11 +40,12 @@ export function CategoryGrid({ counts = {} }: CategoryGridProps) {
               <img
                 src={category.image}
                 alt={category.name}
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
             )}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-dark/75 via-dark/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/10 to-transparent" />
 
             <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
               <motion.h3 className="font-display text-2xl lg:text-3xl font-light text-cream group-hover:text-gold transition-colors duration-500">

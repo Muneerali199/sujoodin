@@ -144,6 +144,7 @@ export function serializeProduct(p: {
     colors: parseJson<{ name: string; hex: string }[] | null>(p.colors, null) ?? undefined,
     inStock: p.inStock,
     featured: p.featured,
+    createdAt: p.createdAt.toISOString(),
   };
 }
 

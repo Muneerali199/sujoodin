@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingBag, Menu, X, Heart } from "lucide-react";
+import { ShoppingBag, Menu, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/store/cart";
-import { MagneticButton } from "@/components/ui/CustomCursor";
+import { useWishlistStore } from "@/lib/store/wishlist";
+import { useStoreHydrated } from "@/lib/store/use-store-hydrated";
 import { MobileMenu } from "./MobileMenu";
 
 const navLinks = [
@@ -19,6 +20,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const totalItems = useCartStore((state) => state.totalItems());
+  const wishlistCount = useWishlistStore((state) => state.items.length);
+  const hydrated = useStoreHydrated(useCartStore);
   const toggleCart = useCartStore((state) => state.toggleCart);
 
   useEffect(() => {
@@ -53,37 +56,34 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  data-cursor-hover
                   className="font-body text-xs tracking-[0.2em] uppercase text-earth hover:text-dark transition-colors duration-300 group relative"
                 >
                   <span className="relative z-10">{link.label}</span>
-                  <div
-                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 bg-gold rounded-full transition-all duration-300 group-hover:w-full"
-                  />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
                 </Link>
               ))}
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-5 sm:gap-6">
               <Link
                 href="/wishlist"
-                data-cursor-hover
                 aria-label="Wishlist"
-                className="hidden md:block text-earth hover:text-dark transition-colors duration-300"
+                className="relative hidden md:block text-earth hover:text-dark transition-colors duration-300"
               >
                 <Heart className="w-5 h-5" />
+                {hydrated && wishlistCount > 0 && (
+                  <span className="absolute -top-2 -right-2 w-4 h-4 bg-gold text-dark text-[9px] font-medium rounded-full flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
               </Link>
               <button
                 onClick={toggleCart}
-                className="relative font-body text-xs tracking-[0.2em] uppercase text-earth hover:text-dark transition-colors duration-300 hidden md:block group relative"
+                aria-label="Open cart"
+                className="relative text-earth hover:text-dark transition-colors duration-300"
               >
-                <span className="relative z-10">
-                  <ShoppingBag className="w-5 h-5" />
-                </span>
-                <div
-                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 bg-gold rounded-full transition-all duration-300 group-hover:w-full"
-                />
-                {totalItems > 0 && (
+                <ShoppingBag className="w-5 h-5" />
+                {hydrated && totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 w-4 h-4 bg-gold text-dark text-[9px] font-medium rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
@@ -91,12 +91,9 @@ export function Navbar() {
               </button>
               <Link
                 href="/shop"
-                className="font-body text-xs tracking-[0.2em] uppercase bg-dark text-cream px-5 py-2.5 hover:bg-earth transition-colors duration-300 relative group overflow-hidden"
+                className="hidden lg:inline-flex font-body text-xs tracking-[0.2em] uppercase bg-dark text-cream px-5 py-2.5 hover:bg-earth transition-colors duration-300"
               >
-                <span className="relative z-10">Shop Now</span>
-                <div
-                  className="absolute inset-0 bg-gold/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                />
+                Shop Now
               </Link>
               <button
                 onClick={() => setMobileOpen(true)}

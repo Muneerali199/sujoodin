@@ -8,6 +8,8 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { BlogPreview } from "@/components/home/BlogPreview";
 import { Newsletter } from "@/components/home/Newsletter";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const products = await getProducts();
   const featuredProducts = products.filter((p) => p.featured);

@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Upload, X, Image as ImageIcon, Star } from "lucide-react";
+import { X, Image as ImageIcon, Star } from "lucide-react";
 
 const MAX_IMAGES = 10;
 export const CATEGORIES = [

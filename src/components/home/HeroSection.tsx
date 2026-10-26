@@ -1,95 +1,57 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/Button";
-import { Heart, Sparkles } from "lucide-react";
-import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const [floating, setFloating] = useState(false);
-  const [heroX, setHeroX] = useState(0);
-  const [heroY, setHeroY] = useState(0);
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const imageX = useSpring(
+    useTransform(pointerX, [-0.5, 0.5], [-10, 10]),
+    { stiffness: 150, damping: 22 }
+  );
+  const imageY = useSpring(
+    useTransform(pointerY, [-0.5, 0.5], [-10, 10]),
+    { stiffness: 150, damping: 22 }
+  );
 
-  const { scrollYProgress } = useScroll();
-  const yRotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
-
-  useEffect(() => {
-    const updateHeroPos = () => {
-      const x = parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue("--hero-x")
-      );
-      const y = parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue("--hero-y")
-      );
-      setHeroX(x);
-      setHeroY(y);
-    };
-    updateHeroPos();
-  }, []);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!heroRef.current) return;
-    const { left, top, width, height } = heroRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) / width;
-    const y = (e.clientY - top - height / 2) / height;
-    setFloating(true);
-    document.documentElement.style.setProperty(
-      "--hero-x",
-      `${x * 15}px`
-    );
-    document.documentElement.style.setProperty(
-      "--hero-y",
-      `${y * 15}px`
-    );
-  };
-
-  const handleMouseLeave = () => {
-    setFloating(false);
-    document.documentElement.style.setProperty("--hero-x", "0px");
-    document.documentElement.style.setProperty("--hero-y", "0px");
+  const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointerX.set((event.clientX - rect.left) / rect.width - 0.5);
+    pointerY.set((event.clientY - rect.top) / rect.height - 0.5);
   };
 
   return (
     <section
-      ref={heroRef}
       className="relative min-h-screen flex items-center overflow-hidden"
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={() => {
+        pointerX.set(0);
+        pointerY.set(0);
+      }}
     >
-      <div
-        className="absolute inset-0 z-0 bg-gradient-to-b from-cream/40 via-cream to-stone/10 pointer-events-none"
-      />
-      <div
-        className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_30%_70%,rgba(201,169,110,0.12)_0px,transparent_50%)] pointer-events-none"
-        style={{
-          transform: `translate(var(--hero-x, 0px), var(--hero-y, 0px))`,
-          transition: "transform 0.1s ease-out",
-        }}
-      />
-      <div
-        className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_70%_30%,rgba(122,107,85,0.08)_0px,transparent_40%)] pointer-events-none"
-        style={{
-          transform: `translate(${heroX * -1.5}px, ${heroY * -1.5}px)`,
-          transition: "transform 0.1s ease-out",
-        }}
-      />
-
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 w-full pt-20">
-        <div
-          className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-80px)]"
-        >
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-80px)]">
           <motion.div
-            variants={staggerContainer}
             initial="hidden"
             animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.12 } },
+            }}
             className="relative z-10"
           >
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
               transition={{ duration: 0.6 }}
               className="flex items-center gap-3 font-body text-[10px] tracking-[0.28em] uppercase text-earth mb-6"
             >
@@ -98,19 +60,23 @@ export function HeroSection() {
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-light leading-[1.05] tracking-tight line-clamp-3"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.7 }}
+              className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-light leading-[1.05] tracking-tight"
             >
               Live in Faith,{" "}
               <span className="italic text-gold">Dress with Purpose.</span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.6 }}
               className="font-body text-sm md:text-base text-text-muted mt-6 max-w-md leading-relaxed"
             >
               Curating modest fashion, Islamic home decor, and prayer essentials
@@ -119,74 +85,72 @@ export function HeroSection() {
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-4 mt-10"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-wrap items-center gap-6 mt-10"
             >
-              <Link href="/shop">
-                <Button variant="primary" size="lg" className="group relative overflow-hidden">
-                  <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                  Explore Collection
-                </Button>
+              <Link
+                href="/shop"
+                className="group inline-flex items-center gap-3 bg-dark text-cream font-body text-xs tracking-[0.15em] uppercase px-7 py-4 hover:bg-earth transition-colors duration-300"
+              >
+                Explore Collection
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
-              <Link href="/about">
-                <Button variant="ghost" size="lg" className="relative overflow-hidden group">
-                  Our Story
-                </Button>
+              <Link
+                href="/about"
+                className="font-body text-xs tracking-[0.15em] uppercase text-dark border-b border-dark/30 pb-1 hover:border-dark transition-colors duration-300"
+              >
+                Our Story
               </Link>
             </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{ transform: `rotateX(${yRotate.get()}deg)` }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="relative hidden lg:block z-10"
           >
-            <div
+            <motion.div
+              style={{ x: imageX, y: imageY }}
               className="relative aspect-[3/4] bg-stone overflow-hidden group"
-              style={{
-                transform: `translate3d(var(--hero-x, 0px), var(--hero-y, 0px), 0)`,
-                transition: "transform 0.1s ease-out",
-              }}
             >
               <img
                 src="https://images.unsplash.com/photo-1561442748-c50715dc32f6?q=80&w=1200&auto=format&fit=crop"
                 alt="Sujood — modest fashion, crafted with purpose"
-                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+                loading="eager"
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-dark/40 via-transparent to-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                <span className="font-display text-[120px] text-dark/10 italic tracking-wider">
-                  SUJOOD
-                </span>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark/20" />
+            </motion.div>
+
+            <div className="mt-5 flex items-center justify-between border-t border-sand pt-4">
+              <span className="font-body text-[10px] tracking-[0.22em] uppercase text-earth">
+                The Everyday Collection
+              </span>
+              <span className="font-body text-[10px] tracking-[0.22em] uppercase text-text-muted">
+                Est. 2020 — India
+              </span>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="absolute bottom-8 right-8 flex flex-col items-center gap-2"
-            >
-              <span className="font-body text-[10px] tracking-[0.2em] uppercase text-earth rotate-90 origin-center translate-y-8">
+            <div className="absolute -bottom-14 right-0 flex items-center gap-3">
+              <span className="font-body text-[10px] tracking-[0.2em] uppercase text-earth">
                 Scroll
               </span>
-              <div className="w-px h-12 bg-earth/30 relative overflow-hidden">
+              <div className="w-px h-10 bg-earth/30 relative overflow-hidden">
                 <motion.div
-                  className="w-full h-4 bg-gold"
-                  animate={{ y: [-16, 32] }}
+                  className="w-full h-3 bg-gold"
+                  animate={{ y: [-12, 40] }}
                   transition={{
-                    duration: 1.5,
+                    duration: 1.8,
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
                 />
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

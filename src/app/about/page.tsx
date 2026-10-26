@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArabicWatermark } from "@/components/shared/ArabicWatermark";
-import { MessageCircle, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin, Clock } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
 export default function AboutPage() {
@@ -34,33 +34,36 @@ export default function AboutPage() {
 
   return (
     <div className="pt-20">
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-stone">
-        <div className="absolute inset-0 bg-gradient-to-br from-stone via-sand/40 to-clay/20" />
-        <ArabicWatermark
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[180px] md:text-[280px] text-earth select-none pointer-events-none"
-          opacity={0.08}
-        />
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative max-w-3xl mx-auto px-6 text-center py-32"
-        >
-          <p className="font-body text-[10px] tracking-[0.28em] uppercase text-earth mb-6">
-            Our Story
-          </p>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-tight">
-            A Brand Born from{" "}
-            <span className="italic text-gold">Devotion</span>
-          </h1>
-          <p className="font-body text-base text-text-muted mt-8 leading-relaxed max-w-2xl mx-auto">
-            Sujood — meaning &quot;prostration&quot; in Arabic — represents the
-            highest form of closeness to Allah. We chose this name because every
-            product we create is designed to help you live your faith with grace,
-            dignity, and purpose.
-          </p>
-        </motion.div>
+      <section className="grid lg:grid-cols-2 min-h-[70vh]">
+        <div className="flex items-center px-6 lg:px-12 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-xl"
+          >
+            <p className="font-body text-[10px] tracking-[0.28em] uppercase text-earth mb-6">
+              Our Story
+            </p>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-tight">
+              A Brand Born from{" "}
+              <span className="italic text-gold">Devotion</span>
+            </h1>
+            <p className="font-body text-base text-text-muted mt-8 leading-relaxed">
+              Sujood — meaning &quot;prostration&quot; in Arabic — represents the
+              highest form of closeness to Allah. We chose this name because every
+              product we create is designed to help you live your faith with grace,
+              dignity, and purpose.
+            </p>
+          </motion.div>
+        </div>
+        <div className="relative min-h-[50vh] lg:min-h-full bg-stone overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1760083545495-b297b1690672?auto=format&fit=crop&w=1400&q=80"
+            alt="Sujood modest fashion collection"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
+        </div>
       </section>
 
       <section className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto">
@@ -189,20 +192,23 @@ export default function AboutPage() {
             className="flex flex-col gap-6"
           >
             <div className="flex items-start gap-4">
-              <MessageCircle className="w-6 h-6 text-gold flex-shrink-0" />
+              <Mail className="w-6 h-6 text-gold flex-shrink-0" />
               <div>
                 <p className="font-display text-lg font-light">Email</p>
-                <p className="font-body text-sm text-text-muted">
+                <a
+                  href="mailto:hello@sujood.in"
+                  className="font-body text-sm text-text-muted hover:text-dark transition-colors"
+                >
                   hello@sujood.in
-                </p>
+                </a>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Phone className="w-6 h-6 text-gold flex-shrink-0" />
+              <Clock className="w-6 h-6 text-gold flex-shrink-0" />
               <div>
-                <p className="font-display text-lg font-light">Phone</p>
+                <p className="font-display text-lg font-light">Hours</p>
                 <p className="font-body text-sm text-text-muted">
-                  +91 99999 99999
+                  Monday – Saturday, 10am – 6pm IST
                 </p>
               </div>
             </div>
@@ -223,7 +229,7 @@ export default function AboutPage() {
             whileInView="visible"
             className="flex flex-col gap-6"
           >
-            <div className="bg-warm-white p-6 rounded-xl border border-sand">
+            <div className="bg-warm-white p-6 border border-sand">
               <p className="font-display text-lg font-light mb-4">
                 Shipping &amp; Returns
               </p>
@@ -237,16 +243,29 @@ export default function AboutPage() {
                 packaging, with all tags intact. Contact us within 24 hours of
                 delivery to initiate a return.
               </p>
+              <Link
+                href="/shipping-returns"
+                className="inline-block mt-4 font-body text-xs tracking-[0.15em] uppercase text-dark underline underline-offset-4 hover:text-gold transition-colors"
+              >
+                Full policy
+              </Link>
             </div>
-            <div className="bg-warm-white p-6 rounded-xl border border-sand">
+            <div className="bg-warm-white p-6 border border-sand">
               <p className="font-display text-lg font-light mb-4">
                 Privacy Policy
               </p>
               <p className="font-body text-sm text-text-muted leading-relaxed">
                 We respect your privacy and do not share your personal
-                information with third parties. All payment data is processed
-                securely through encrypted gateways. Your data is used only for
-                order processing and communication related to your purchases.
+                information with third parties. Your details are used only to
+                process your order and to communicate with you about it. You can
+                ask us to delete your information at any time by emailing{" "}
+                <a
+                  href="mailto:hello@sujood.in"
+                  className="text-dark underline underline-offset-2"
+                >
+                  hello@sujood.in
+                </a>
+                .
               </p>
             </div>
           </motion.div>
