@@ -113,7 +113,7 @@ export default function EditProductPage({
           </Button>
         </Link>
         <div>
-          <h1 className="font-display text-2xl sm:text-3xl font-semibold text-dark">
+          <h1 className="font-display text-3xl sm:text-4xl font-light text-dark">
             Edit Product
           </h1>
           <p className="font-body text-sm text-text-muted mt-1">

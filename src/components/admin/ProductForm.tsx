@@ -170,20 +170,20 @@ export function ProductForm({
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl">
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 font-body text-sm">
+        <div className="mb-6 p-4 bg-red-50/60 border border-red-200 text-red-700 font-body text-sm">
           {error}
         </div>
       )}
       {success && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-body text-sm">
+        <div className="mb-6 p-4 bg-gold/5 border border-gold/40 text-earth font-body text-sm">
           {success}
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-warm-white rounded-xl p-4 sm:p-6 border border-sand">
-            <h2 className="font-display text-lg font-semibold text-dark mb-4">
+          <div className="bg-warm-white p-5 sm:p-6 border border-sand">
+            <h2 className="font-display text-lg font-light text-dark mb-4">
               Basic Information
             </h2>
             <div className="space-y-4">
@@ -220,15 +220,15 @@ export function ProductForm({
                   placeholder="Product description..."
                   rows={4}
                   required
-                  className="w-full font-body text-sm bg-transparent border border-sand rounded-lg p-3 focus:outline-none focus:border-gold transition-colors resize-none"
+                  className="w-full font-body text-sm bg-transparent border border-sand p-3 focus:outline-none focus:border-gold transition-colors resize-none"
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-warm-white rounded-xl p-4 sm:p-6 border border-sand">
+          <div className="bg-warm-white p-5 sm:p-6 border border-sand">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-lg font-semibold text-dark">
+              <h2 className="font-display text-lg font-light text-dark">
                 Images
               </h2>
               <span className="font-body text-xs text-text-muted">
@@ -240,7 +240,7 @@ export function ProductForm({
               {form.images.map((src, i) => (
                 <div
                   key={src}
-                  className="relative aspect-square rounded-lg overflow-hidden border border-sand group"
+                  className="relative aspect-square overflow-hidden border border-sand group"
                 >
                   <img
                     src={src}
@@ -248,7 +248,7 @@ export function ProductForm({
                     className="w-full h-full object-cover"
                   />
                   {i === 0 && (
-                    <span className="absolute top-2 left-2 px-2 py-0.5 bg-dark/80 text-cream text-[10px] font-body rounded">
+                    <span className="absolute top-2 left-2 px-2 py-0.5 bg-dark/80 text-cream text-[10px] font-body">
                       Main
                     </span>
                   )}
@@ -258,7 +258,8 @@ export function ProductForm({
                         type="button"
                         onClick={() => moveImage(i, i - 1)}
                         title="Move earlier"
-                        className="w-6 h-6 bg-dark/80 text-cream rounded flex items-center justify-center text-xs"
+                        aria-label={`Move image ${i + 1} earlier`}
+                        className="w-6 h-6 bg-dark/80 text-cream flex items-center justify-center text-xs"
                       >
                         &larr;
                       </button>
@@ -267,7 +268,8 @@ export function ProductForm({
                       type="button"
                       onClick={() => removeExistingImage(i)}
                       title="Remove image"
-                      className="w-6 h-6 bg-red-600/90 text-cream rounded flex items-center justify-center"
+                      aria-label={`Remove image ${i + 1}`}
+                      className="w-6 h-6 bg-red-600/90 text-cream flex items-center justify-center"
                     >
                       <X size={12} />
                     </button>
@@ -278,20 +280,21 @@ export function ProductForm({
               {newFiles.map((file, i) => (
                 <div
                   key={`${file.name}-${i}`}
-                  className="relative aspect-square rounded-lg overflow-hidden border-2 border-gold group"
+                  className="relative aspect-square overflow-hidden border-2 border-gold group"
                 >
                   <img
                     src={previews[i]}
                     alt={`New upload ${i + 1}`}
                     className="w-full h-full object-cover"
                   />
-                  <span className="absolute top-2 left-2 px-2 py-0.5 bg-gold text-dark text-[10px] font-body rounded">
+                  <span className="absolute top-2 left-2 px-2 py-0.5 bg-gold text-dark text-[10px] font-body">
                     New
                   </span>
                   <button
                     type="button"
                     onClick={() => removeNewFile(i)}
-                    className="absolute top-2 right-2 w-6 h-6 bg-red-600/90 text-cream rounded-full flex items-center justify-center"
+                    aria-label={`Remove new upload ${i + 1}`}
+                    className="absolute top-2 right-2 w-6 h-6 bg-red-600/90 text-cream flex items-center justify-center"
                   >
                     <X size={12} />
                   </button>
@@ -299,7 +302,7 @@ export function ProductForm({
               ))}
 
               {totalImages < MAX_IMAGES && (
-                <label className="aspect-square rounded-lg border-2 border-dashed border-sand flex flex-col items-center justify-center cursor-pointer hover:border-gold transition-colors">
+                <label className="aspect-square border-2 border-dashed border-sand flex flex-col items-center justify-center cursor-pointer hover:border-gold transition-colors">
                   <ImageIcon size={24} className="text-sand mb-2" />
                   <span className="font-body text-xs text-text-muted">
                     Add
@@ -324,8 +327,8 @@ export function ProductForm({
         </div>
 
         <div className="space-y-6">
-          <div className="bg-warm-white rounded-xl p-4 sm:p-6 border border-sand">
-            <h2 className="font-display text-lg font-semibold text-dark mb-4">
+          <div className="bg-warm-white p-5 sm:p-6 border border-sand">
+            <h2 className="font-display text-lg font-light text-dark mb-4">
               Pricing
             </h2>
             <div className="space-y-4">
@@ -351,8 +354,8 @@ export function ProductForm({
             </div>
           </div>
 
-          <div className="bg-warm-white rounded-xl p-4 sm:p-6 border border-sand">
-            <h2 className="font-display text-lg font-semibold text-dark mb-4">
+          <div className="bg-warm-white p-5 sm:p-6 border border-sand">
+            <h2 className="font-display text-lg font-light text-dark mb-4">
               Organization
             </h2>
             <div className="space-y-4">
@@ -377,7 +380,7 @@ export function ProductForm({
             </div>
           </div>
 
-          <div className="bg-warm-white rounded-xl p-4 sm:p-6 border border-sand space-y-4">
+          <div className="bg-warm-white p-5 sm:p-6 border border-sand space-y-4">
             <label className="flex items-center justify-between cursor-pointer">
               <span className="font-body text-sm text-dark">In Stock</span>
               <input
