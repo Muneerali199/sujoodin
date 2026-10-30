@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Filter, X } from "lucide-react";
+import { Filter, Search, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
@@ -22,18 +22,24 @@ interface ShopBrowserProps {
   products: Product[];
   activeCategory?: string | null;
   showFilters?: boolean;
+  initialSearch?: string;
+  initialSort?: SortValue;
 }
 
 export function ShopBrowser({
   products,
   activeCategory = null,
   showFilters = true,
+  initialSearch = "",
+  initialSort = "featured",
 }: ShopBrowserProps) {
   const router = useRouter();
   const [category, setCategory] = useState<string | null>(activeCategory);
   const [priceRange, setPriceRange] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<SortValue>("featured");
+  const [sortBy, setSortBy] = useState<SortValue>(initialSort);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [search, setSearch] = useState(initialSearch);
+
 
   const filtered = useMemo(() => {
     let list = [...products];
@@ -41,6 +47,16 @@ export function ShopBrowser({
     if (category) {
       list = list.filter(
         (p) => p.category.toLowerCase().replace(/\s+/g, "-") === category
+      );
+    }
+
+    if (search.trim()) {
+      const term = search.trim().toLowerCase();
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(term) ||
+          p.category.toLowerCase().includes(term) ||
+          p.description.toLowerCase().includes(term)
       );
     }
 
@@ -68,7 +84,7 @@ export function ShopBrowser({
     }
 
     return list;
-  }, [products, category, priceRange, sortBy]);
+  }, [products, category, priceRange, sortBy, search]);
 
   const handleCategoryChange = (slug: string | null) => {
     setCategory(slug);
@@ -78,6 +94,12 @@ export function ShopBrowser({
     } else {
       router.push("/shop");
     }
+  };
+
+  const handleSearchSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const value = search.trim();
+    router.push(value ? `/shop?q=${encodeURIComponent(value)}` : "/shop");
   };
 
   const sidebar = (
@@ -92,15 +114,52 @@ export function ShopBrowser({
   return (
     <>
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pb-24">
+        <form
+          onSubmit={handleSearchSubmit}
+          role="search"
+          className="mb-8 flex max-w-2xl items-center border border-sand bg-warm-white"
+        >
+          <Search size={17} className="ml-4 shrink-0 text-earth" />
+          <label htmlFor="shop-search" className="sr-only">
+            Search products
+          </label>
+          <input
+            id="shop-search"
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search products, categories, or gifts"
+            className="scroll-mt-24 min-w-0 flex-1 bg-transparent px-3 py-3.5 font-body text-sm outline-none placeholder:text-text-muted"
+          />
+          <button
+            type="submit"
+            className="self-stretch bg-forest px-5 font-body text-[10px] tracking-[0.16em] uppercase text-cream hover:bg-forest-deep transition-colors"
+          >
+            Search
+          </button>
+        </form>
+
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-sand">
           <p className="font-body text-sm text-text-muted">
             {filtered.length}{" "}
             {filtered.length === 1 ? "product" : "products"}
-            {(category || priceRange) && (
+            {(category || priceRange || search.trim()) && (
               <span className="text-sand"> of {products.length}</span>
             )}
           </p>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 sm:gap-5">
+            {search.trim() && (
+              <button
+                onClick={() => {
+                  setSearch("");
+                  router.replace("/shop");
+                }}
+                className="flex items-center gap-1.5 font-body text-[10px] tracking-[0.12em] uppercase text-earth border border-sand px-2.5 py-1.5 hover:border-gold hover:text-gold transition-colors"
+              >
+                “{search.trim()}”
+                <X size={12} />
+              </button>
+            )}
             {showFilters && (
               <button
                 onClick={() => setFilterOpen(true)}

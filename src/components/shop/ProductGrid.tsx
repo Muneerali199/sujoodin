@@ -24,6 +24,12 @@ export function ProductGrid({ products }: ProductGridProps) {
         <p className="font-body text-lg text-text-muted">
           No products found with these filters.
         </p>
+        <Link
+          href="/shop"
+          className="mt-6 inline-flex border-b border-forest/30 pb-1 font-body text-[10px] tracking-[0.18em] uppercase text-forest hover:border-gold hover:text-gold transition-colors"
+        >
+          Browse all products
+        </Link>
       </div>
     );
   }

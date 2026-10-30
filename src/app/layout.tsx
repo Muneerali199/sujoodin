@@ -68,10 +68,18 @@ export default function RootLayout({
       className={`${cormorant.variable} ${dmSans.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-cream text-dark antialiased overflow-x-hidden">
+        <a
+          href="#main-content"
+          className="fixed left-4 top-4 z-[100] -translate-y-24 bg-forest px-4 py-2 font-body text-xs text-cream transition-transform focus:translate-y-0"
+        >
+          Skip to content
+        </a>
         <ToastProvider>
           <Providers>
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
             <Footer />
             <CartDrawer />
           </Providers>

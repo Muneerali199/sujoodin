@@ -10,6 +10,10 @@
   --color-dark: #2A2420;
   --color-gold: #C9A96E;
   --color-text-muted: #8A7D6B;
+  --color-forest: #0C3E23;
+  --color-forest-deep: #082B19;
+  --color-sage: #E9EDE5;
+  --color-parchment: #F4EFE6;
 
   --font-display: var(--font-cormorant);
   --font-body: var(--font-dm-sans);
@@ -90,4 +94,18 @@ body {
 .tilt-perspective {
   transform-style: preserve-3d;
   perspective: 900px;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.arch-shape {
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+  overflow: hidden;
 }

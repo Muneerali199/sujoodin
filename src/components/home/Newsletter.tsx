@@ -48,7 +48,10 @@ export function Newsletter() {
   };
 
   return (
-    <section className="py-24 lg:py-32 bg-stone border-y border-sand">
+    <section
+      id="newsletter"
+      className="scroll-mt-20 sm:scroll-mt-32 py-24 lg:py-32 bg-stone border-y border-sand"
+    >
       <div className="relative max-w-2xl mx-auto px-6 text-center">
         <motion.div
           variants={staggerContainer}

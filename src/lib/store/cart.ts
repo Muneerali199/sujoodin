@@ -1,13 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { CartItem, Product } from "@/lib/types/product";
+import {
+  COUPON_CODE,
+  computeDiscount,
+  computeShipping,
+  computeTotals,
+} from "@/lib/commerce";
+
+export { COUPON_CODE, COUPON_PERCENT } from "@/lib/commerce";
 
 export function cartItemKey(item: Pick<CartItem, "id" | "selectedSize" | "selectedColor">) {
   return `${item.id}::${item.selectedSize ?? ""}::${item.selectedColor ?? ""}`;
 }
-
-export const COUPON_CODE = "SUJOOD10";
-export const COUPON_PERCENT = 10;
 
 interface CartState {
   items: CartItem[];
@@ -103,19 +108,29 @@ export const useCartStore = create<CartState>()(
         get().items.reduce((sum, item) => sum + item.price * item.quantity, 0),
 
       discount: () => {
-        if (get().coupon !== COUPON_CODE) return 0;
-        return Math.round((get().totalPrice() * COUPON_PERCENT) / 100);
+        const { items, coupon } = get();
+        return computeDiscount(
+          items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+          coupon
+        );
       },
 
       shipping: () => {
-        const subtotal = get().totalPrice() - get().discount();
-        if (subtotal === 0) return 0;
-        return subtotal >= 999 ? 0 : 99;
+        const { items, coupon } = get();
+        const subtotal = items.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+        return computeShipping(subtotal - computeDiscount(subtotal, coupon));
       },
 
       grandTotal: () => {
-        const total = get().totalPrice() - get().discount() + get().shipping();
-        return Math.max(0, total);
+        const { items, coupon } = get();
+        const subtotal = items.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+        return computeTotals(subtotal, coupon).total;
       },
     }),
     {

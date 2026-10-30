@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingBag, Menu, Heart } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ShoppingBag, Menu, Heart, Search, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
@@ -17,6 +18,7 @@ const navLinks = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const totalItems = useCartStore((state) => state.totalItems());
@@ -29,6 +31,8 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (pathname === "/") return null;
 
   return (
     <>
@@ -65,6 +69,20 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-5 sm:gap-6">
+              <Link
+                href="/shop#shop-search"
+                aria-label="Search products"
+                className="hidden md:block text-earth hover:text-dark transition-colors duration-300"
+              >
+                <Search className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/account"
+                aria-label="Account"
+                className="hidden md:block text-earth hover:text-dark transition-colors duration-300"
+              >
+                <User className="w-5 h-5" />
+              </Link>
               <Link
                 href="/wishlist"
                 aria-label="Wishlist"

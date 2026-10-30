@@ -2,20 +2,20 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { SectionHeader } from "@/components/shared/SectionHeader";
+import { OrnamentHeading } from "./OrnamentHeading";
 import { blogPosts } from "@/lib/data";
 import { fadeInUp, staggerContainer } from "@/lib/framer-variants";
 
 export function BlogPreview() {
-  const recentPosts = blogPosts.slice(0, 3);
+  const recentPosts = blogPosts.slice(0, 4);
 
   return (
     <section className="py-24 lg:py-32 px-6 lg:px-12 max-w-[1440px] mx-auto">
-      <SectionHeader
+      <OrnamentHeading
         eyebrow="Journal"
         title="Stories & Inspiration"
         subtitle="Thoughtful perspectives on faith, fashion, and mindful living."
-        link={{ label: "Read Journal", href: "/journal" }}
+        action={{ label: "Read Journal", href: "/journal" }}
       />
 
       <motion.div
@@ -23,7 +23,7 @@ export function BlogPreview() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6"
       >
         {recentPosts.map((post) => (
           <motion.article key={post.id} variants={fadeInUp} className="group">

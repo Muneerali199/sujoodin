@@ -1,9 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { X } from "lucide-react";
-import { staggerContainer, fadeInUp } from "@/lib/framer-variants";
+
+const menuContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.04, delayChildren: 0.05 },
+  },
+};
+
+const menuItem: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.28 } },
+};
 
 interface MobileMenuProps {
   onClose: () => void;
@@ -11,15 +23,19 @@ interface MobileMenuProps {
 
 export function MobileMenu({ onClose }: MobileMenuProps) {
   const links = [
-    { label: "Collection", href: "/shop" },
-    { label: "Home & Decor", href: "/shop/home-decor" },
-    { label: "About", href: "/about" },
+    { label: "New Arrivals", href: "/shop/collections/new-arrivals" },
+    { label: "Gift Sets", href: "/shop/collections/gift-sets" },
+    { label: "Best Sellers", href: "/shop/collections/best-sellers" },
+    { label: "Shop All", href: "/shop" },
+    { label: "Search Products", href: "/shop#shop-search" },
+    { label: "Occasions", href: "/#occasions" },
+    { label: "Categories", href: "/#categories" },
+    { label: "For Your Loved Ones", href: "/#loved-ones" },
     { label: "Journal", href: "/journal" },
-    { label: "Size Guide", href: "/size-guide" },
-    { label: "Shipping & Returns", href: "/shipping-returns" },
+    { label: "About", href: "/about" },
     { label: "FAQ", href: "/faq" },
     { label: "Wishlist", href: "/wishlist" },
-    { label: "Cart", href: "/cart" },
+    { label: "Account", href: "/account" },
   ];
 
   return (
@@ -44,13 +60,13 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
         </div>
 
         <motion.nav
-          variants={staggerContainer}
+          variants={menuContainer}
           initial="hidden"
           animate="visible"
           className="flex flex-col gap-5 flex-1"
         >
           {links.map((link) => (
-            <motion.div key={link.href} variants={fadeInUp}>
+            <motion.div key={link.label} variants={menuItem}>
               <Link
                 href={link.href}
                 onClick={onClose}

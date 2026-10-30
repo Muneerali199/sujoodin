@@ -302,4 +302,39 @@ export const blogPosts: BlogPost[] = [
     author: "Imran Siddiqui",
     date: "2026-08-12",
   },
+  {
+    id: "4",
+    slug: "art-of-gifting-with-intention",
+    title: "The Art of Gifting with Intention",
+    excerpt:
+      "A useful gift is thoughtful. A meaningful one says: I noticed you. Here is how to choose either — or both.",
+    content:
+      "Meaningful gifting starts with attention, not budget. A few questions can turn a nice present into a lasting memory.",
+    sections: [
+      {
+        body: "The best gifts rarely begin in a shop. They begin with a small observation: the mug someone always reaches for, the prayer mat they keep meaning to replace, the corner of a new home that still feels unfinished. Intention is simply paying enough attention to notice.",
+      },
+      {
+        heading: "Start with the season of life",
+        body: "A newly married couple needs different things from a friend welcoming a baby or a parent settling into a new home. Think about the week ahead for the person you are gifting. What would make it softer, easier, or more beautiful? That question usually leads somewhere better than a generic hamper.",
+      },
+      {
+        heading: "Choose one thing well",
+        body: "A single considered piece often lands better than a box of small things. A prayer mat with real cushioning, a candle that suits their home, a hijab in the colour they actually wear. Quality is not about price; it is about whether the object feels chosen for them.",
+      },
+      {
+        heading: "Write the note",
+        body: "The card is not an afterthought. A line about why you chose the gift, or a du'a for the occasion, turns an object into a keepsake. Keep it short and specific. The words are often the part people remember longest.",
+      },
+      {
+        heading: "Give without expectation",
+        body: "Gifting is a sunnah for a reason: it softens hearts and builds connection. Give what you can, wrap it with care, and let go of how it is received. The intention is the part that stays with you.",
+      },
+    ],
+    category: "Gifting",
+    image:
+      "https://images.unsplash.com/photo-1608755728617-aefab37d2edd?auto=format&fit=crop&w=1200&q=80",
+    author: "Sujood Editorial",
+    date: "2026-07-22",
+  },
 ];

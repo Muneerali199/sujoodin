@@ -29,3 +29,53 @@ model NewsletterSubscriber {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+model Customer {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  phone        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  number     String      @unique
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name       String
+  email      String
+  phone      String
+  address    String
+  city       String
+  state      String
+  pincode    String
+  notes      String?
+  subtotal   Float
+  discount   Float       @default(0)
+  shipping   Float       @default(0)
+  total      Float
+  coupon     String?
+  status     String      @default("requested")
+  items      OrderItem[]
+  createdAt  DateTime    @default(now())
+
+  @@index([customerId, createdAt])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String?
+  name      String
+  price     Float
+  quantity  Int
+  size      String?
+  color     String?
+
+  @@index([orderId])
+}

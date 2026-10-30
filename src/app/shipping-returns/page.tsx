@@ -93,7 +93,10 @@ export default function ShippingReturnsPage() {
         </motion.div>
       </section>
 
-      <section className="py-16 lg:py-20 px-6 lg:px-12 max-w-[1440px] mx-auto bg-warm-white">
+      <section
+        id="shipping"
+        className="scroll-mt-24 py-16 lg:py-20 px-6 lg:px-12 max-w-[1440px] mx-auto bg-warm-white"
+      >
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -202,7 +205,10 @@ export default function ShippingReturnsPage() {
         </motion.div>
       </section>
 
-      <section className="py-16 lg:py-24 px-6 lg:px-12 max-w-[1440px] mx-auto bg-dark text-cream">
+      <section
+        id="returns"
+        className="scroll-mt-24 py-16 lg:py-24 px-6 lg:px-12 max-w-[1440px] mx-auto bg-dark text-cream"
+      >
         <motion.div
           variants={staggerContainer}
           initial="hidden"
