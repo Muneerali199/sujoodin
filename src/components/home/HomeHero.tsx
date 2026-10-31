@@ -13,7 +13,7 @@ const slides = [
     cta: "Shop the gift edit",
     href: "/shop/collections/gift-edit",
     image:
-      "https://images.unsplash.com/photo-1608755728617-aefab37d2edd?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=1800&q=90",
     tone: "bg-[#F4EFE6]",
   },
   {
@@ -84,7 +84,7 @@ export function HomeHero() {
   };
 
   return (
-    <section className="bg-parchment py-5 sm:py-7">
+    <section className="bg-parchment py-4 sm:py-6">
       <h1 className="sr-only">
         Sujood — Islamic lifestyle gifts, prayer essentials, and modest fashion
       </h1>
@@ -108,7 +108,7 @@ export function HomeHero() {
               <img
                 src={slide.image}
                 alt=""
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover object-center"
                 loading={index === 0 ? "eager" : "lazy"}
               />
               {index === active && (

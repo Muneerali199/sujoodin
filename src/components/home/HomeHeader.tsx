@@ -178,7 +178,8 @@ const railItems = [
   {
     label: "Gift Edit",
     href: "/shop/collections/gift-edit",
-    image: "https://images.unsplash.com/photo-1608755728617-aefab37d2edd?auto=format&fit=crop&w=400&q=80",
+    image:
+      "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=600&q=90",
   },
   {
     label: "Journal",
@@ -481,7 +482,7 @@ export function HomeHeader() {
                   href={item.href}
                   className="group flex flex-col items-center gap-2 w-[78px] sm:w-[92px]"
                 >
-                  <span className="arch-shape block w-[72px] sm:w-[84px] h-[92px] sm:h-[108px] overflow-hidden bg-stone">
+                  <span className="arch-shape block w-[72px] sm:w-[84px] h-[92px] sm:h-[108px] overflow-hidden bg-stone border border-gold/35 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-gold/70 group-hover:shadow-[0_8px_24px_rgba(12,62,35,0.12)]">
                     <img
                       src={item.image}
                       alt=""
