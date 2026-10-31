@@ -52,11 +52,11 @@ const tabs = [
         href: "/shop/collections/wedding-gifts",
       },
       {
-        title: "The Gift Edit",
-        subtitle: "Wrapped with intention",
+        title: "Hamper Sets",
+        subtitle: "Layered gifts, made personal",
         image:
-          "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80",
-        href: "/shop/collections/gift-edit",
+          "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=800&q=85",
+        href: "/shop/collections/hamper-sets",
       },
     ],
   },

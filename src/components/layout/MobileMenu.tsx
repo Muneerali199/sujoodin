@@ -25,6 +25,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
   const links = [
     { label: "New Arrivals", href: "/shop/collections/new-arrivals" },
     { label: "Gift Sets", href: "/shop/collections/gift-sets" },
+    { label: "Hamper Sets", href: "/shop/collections/hamper-sets" },
     { label: "Best Sellers", href: "/shop/collections/best-sellers" },
     { label: "Shop All", href: "/shop" },
     { label: "Search Products", href: "/shop#shop-search" },

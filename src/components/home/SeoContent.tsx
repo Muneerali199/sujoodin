@@ -48,6 +48,29 @@ export function SeoContent() {
           ))}
         </div>
 
+        <div className="mt-12 border-t border-sand/70 pt-8">
+          <h3 className="font-display text-2xl font-light text-forest-deep">
+            Hamper Sets, Curated with Care
+          </h3>
+          <p className="font-body text-sm text-text-muted leading-relaxed mt-3 max-w-3xl">
+            From a Janamaz and resin tasbeeh to an itr and tasbeeh pairing, our
+            hamper sets are built around the person receiving them. Choose a
+            starting point or ask us to create something entirely personal —
+            every hamper is made to order and can include customised Janamaz,
+            resin tasbeeh, calligraphy hijabs, and thoughtful wedding gifts.
+          </p>
+          <Link
+            href="/shop/collections/hamper-sets"
+            className="group inline-flex items-center gap-2 mt-4 font-body text-[10px] tracking-[0.18em] uppercase text-forest border-b border-forest/30 pb-1 hover:border-gold hover:text-gold transition-colors"
+          >
+            Explore hamper sets
+            <ArrowRight
+              size={13}
+              className="transition-transform group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
+
         <div className="mt-12 border-t border-sand/70 pt-8 flex flex-col sm:flex-row items-center justify-between gap-5">
           <p className="font-body text-xs text-text-muted leading-relaxed max-w-xl">
             Looking for something specific, or planning a bulk order for a

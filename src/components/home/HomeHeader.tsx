@@ -15,6 +15,7 @@ import {
   Home,
   Menu,
   MoonStar,
+  Package,
   Search,
   ShoppingBag,
   Sparkles,
@@ -47,6 +48,7 @@ const navLinks: NavLink[] = [
       { label: "Modest Fashion", href: "/shop/modest-fashion" },
       { label: "Home & Decor", href: "/shop/home-decor" },
       { label: "Ramadan Specials", href: "/shop/ramadan-specials" },
+      { label: "Hamper Sets", href: "/shop/collections/hamper-sets" },
       { label: "Wishlist", href: "/wishlist" },
     ],
   },
@@ -85,6 +87,10 @@ const navLinks: NavLink[] = [
       {
         label: "New Arrivals",
         href: "/shop/collections/new-arrivals",
+      },
+      {
+        label: "Hamper Sets",
+        href: "/shop/collections/hamper-sets",
       },
       { label: "The Journal", href: "/journal" },
     ],
@@ -135,6 +141,11 @@ const iconLinks = [
     icon: Sparkles,
   },
   { label: "Kids", href: "/shop/collections/for-kids", icon: Baby },
+  {
+    label: "Hampers",
+    href: "/shop/collections/hamper-sets",
+    icon: Package,
+  },
   { label: "Journal", href: "/journal", icon: BookOpen },
 ];
 
@@ -180,6 +191,12 @@ const railItems = [
     href: "/shop/collections/gift-edit",
     image:
       "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=600&q=90",
+  },
+  {
+    label: "Hampers",
+    href: "/shop/collections/hamper-sets",
+    image:
+      "https://images.unsplash.com/photo-1608755728617-aefab37d2edd?auto=format&fit=crop&w=600&q=85",
   },
   {
     label: "Journal",

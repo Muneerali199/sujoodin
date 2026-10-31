@@ -6,6 +6,7 @@ export function Footer() {
     { label: "All Products", href: "/shop" },
     { label: "New Arrivals", href: "/shop/collections/new-arrivals" },
     { label: "Best Sellers", href: "/shop/collections/best-sellers" },
+    { label: "Hamper Sets", href: "/shop/collections/hamper-sets" },
     { label: "Prayer Essentials", href: "/shop/prayer-essentials" },
     { label: "Modest Fashion", href: "/shop/modest-fashion" },
     { label: "Home & Decor", href: "/shop/home-decor" },
@@ -63,8 +64,8 @@ export function Footer() {
               <span className="text-gold text-2xl">.</span>
             </Link>
             <p className="font-body text-sm text-cream/60 leading-relaxed max-w-xs">
-              Live in faith, dress with purpose. Curating modest fashion and
-              Islamic lifestyle essentials for the modern Muslim.
+              Thoughtful, elegant, and personalised Islamic gifts that bring
+              hearts closer to the beauty of Islam.
             </p>
             <p className="font-body text-[10px] tracking-[0.2em] uppercase text-gold mt-6">
               Share the Barakah!

@@ -50,10 +50,10 @@ export default function AboutPage() {
               <span className="italic text-gold">Devotion</span>
             </h1>
             <p className="font-body text-base text-text-muted mt-8 leading-relaxed">
-              Sujood — meaning &quot;prostration&quot; in Arabic — represents the
-              highest form of closeness to Allah. We chose this name because every
-              product we create is designed to help you live your faith with grace,
-              dignity, and purpose.
+              At Sujood.in, we believe that the most beautiful gifts are the ones
+              that carry love, faith, and a meaningful story. Our brand is
+              dedicated to creating thoughtful, elegant, and personalised Islamic
+              gifts that bring hearts closer to the beauty of Islam.
             </p>
           </motion.div>
         </div>
@@ -63,6 +63,36 @@ export default function AboutPage() {
             alt="Sujood modest fashion collection"
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
+        </div>
+      </section>
+
+      <section className="bg-parchment border-y border-sand/60 py-20 lg:py-24 px-6 lg:px-12">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="font-body text-[10px] tracking-[0.28em] uppercase text-gold mb-4">
+            Made with intention
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light text-forest-deep">
+            More than a present.
+          </h2>
+          <div className="mt-7 space-y-5 font-body text-sm sm:text-base text-text-muted leading-relaxed">
+            <p>
+              We offer a beautiful collection of Islamic gifts, including
+              customised Janamaz, personalised resin tasbeeh, name-engraved
+              tasbeeh, Quran gift sets, Islamic calligraphy, and thoughtful
+              curated wedding gifts.
+            </p>
+            <p>
+              Our journey began with a simple thought: a gift can be more than
+              just a present. It can be a reminder of faith, a source of comfort,
+              and a memory to cherish forever.
+            </p>
+            <p className="text-earth">
+              Sujood — meaning &quot;prostration&quot; in Arabic — represents the
+              highest form of closeness to Allah. We chose this name because every
+              product we create is designed to help you live your faith with grace,
+              dignity, and purpose.
+            </p>
+          </div>
         </div>
       </section>
 

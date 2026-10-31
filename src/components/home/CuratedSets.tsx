@@ -31,6 +31,13 @@ const sets = [
       "https://images.unsplash.com/photo-1771909752761-d26abe4e60ba?auto=format&fit=crop&w=900&q=80",
     href: "/shop/collections/ramadan-eid-gifts",
   },
+  {
+    title: "Hamper Sets",
+    subtitle: "Layered gifts, made personal",
+    image:
+      "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=900&q=85",
+    href: "/shop/collections/hamper-sets",
+  },
 ];
 
 export function CuratedSets() {
@@ -42,14 +49,14 @@ export function CuratedSets() {
       <OrnamentHeading
         eyebrow="Choose a set"
         title="Gift Sets by Type"
-        subtitle="Four edits to begin with — each one built around the way faith lives in your everyday."
+        subtitle="Five edits to begin with — each one built around the way faith lives in your everyday."
         action={{
           label: "Shop all",
           href: "/shop/collections/gift-sets",
         }}
       />
 
-      <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="mt-12 grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
         {sets.map((set, index) => (
           <Link
             key={set.title}

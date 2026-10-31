@@ -16,6 +16,7 @@ const groups = [
     title: "Gifts & Hampers",
     links: [
       { label: "The Gift Edit", href: "/shop/collections/gift-edit" },
+      { label: "Hamper Sets", href: "/shop/collections/hamper-sets" },
       {
         label: "New Arrivals",
         href: "/shop/collections/new-arrivals",

@@ -40,7 +40,7 @@ const tiles = [
     label: "Wrapped with intention",
     image:
       "https://images.unsplash.com/photo-1608755728617-aefab37d2edd?auto=format&fit=crop&w=1200&q=80",
-    href: "/shop/collections/gift-edit",
+    href: "/shop/collections/hamper-sets",
     span: "col-span-2",
   },
   {
