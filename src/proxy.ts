@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
+import { getNeonAuth } from "@/lib/auth/server";
 import {
   CUSTOMER_COOKIE,
   verifyCustomerToken,
@@ -15,9 +16,20 @@ function isProtectedApi(pathname: string, method: string): boolean {
   return false;
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
+
+  if (pathname === "/api/auth/complete") {
+    const auth = getNeonAuth();
+    if (!auth) {
+      return NextResponse.json(
+        { success: false, message: "Google sign-in is not configured." },
+        { status: 503 }
+      );
+    }
+    return auth.middleware()(request);
+  }
 
   const needsAdmin =
     (pathname === "/admin" || pathname.startsWith("/admin/")) &&

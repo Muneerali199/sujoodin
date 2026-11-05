@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { authClient } from "@/lib/auth/client";
 
 export function AccountLogoutButton() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export function AccountLogoutButton() {
   const handleLogout = async () => {
     setLoading(true);
     try {
+      await authClient.signOut().catch(() => undefined);
       await fetch("/api/customer/logout", { method: "POST" });
       router.push("/");
       router.refresh();
